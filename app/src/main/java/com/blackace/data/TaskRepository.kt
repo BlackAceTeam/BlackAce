@@ -71,9 +71,12 @@ object TaskRepository {
 
     suspend fun taskDelete(bean: TaskBean): BaseResult<Any> {
         return try {
-            val apkFile = File(ContextHolder.get().externalCacheDir, "apks/${bean.clientTaskNo}.apk")
-            apkFile.delete()
-            ApiHolder.api.taskDelete(bean.taskNo)
+            val result = ApiHolder.api.taskDelete(bean.taskNo)
+            if (result.isSuccess()){
+                val apkFile = File(ContextHolder.get().externalCacheDir, "apks/${bean.clientTaskNo}.apk")
+                apkFile.delete()
+            }
+            result
         } catch (e: Exception) {
             BaseResult.fail(e.message.toString())
         }

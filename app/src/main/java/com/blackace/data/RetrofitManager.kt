@@ -27,6 +27,8 @@ object RetrofitManager {
             }
             .addInterceptor(TokenInterceptor())
             .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(2,TimeUnit.MINUTES)
+            .writeTimeout(2,TimeUnit.MINUTES)
             .build()
     }
 

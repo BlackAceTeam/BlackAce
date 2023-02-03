@@ -118,7 +118,7 @@ object LocalRepository {
         return AppBean(
             name,
             packageInfo.packageName,
-            packageInfo.versionName,
+            packageInfo.versionName?:"",
             versionCode,
             apkFile.size(),
             uri.toString(),

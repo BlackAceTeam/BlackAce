@@ -124,7 +124,7 @@ class MainActivity : BaseActivity() {
 
         binding.pageRefresh.onRefresh {
             viewModel.loadTaskList("")
-        }.refreshing()
+        }
 
         binding.pageRefresh.onLoadMore {
             viewModel.loadTaskList()
@@ -171,14 +171,14 @@ class MainActivity : BaseActivity() {
                     headerBinding.tvEmail.setText(R.string.click_login)
                     headerBinding.tvUsername.setText(R.string.no_login)
                     isLogin = false
-                    binding.pageRefresh.refresh()
+                    binding.pageRefresh.refreshing()
                 }
 
                 is UserState.Login -> {
                     headerBinding.tvUsername.text = it.bean.name
                     headerBinding.tvEmail.text = it.bean.email
                     isLogin = true
-                    binding.pageRefresh.refresh()
+                    binding.pageRefresh.refreshing()
                 }
             }
         }
@@ -190,32 +190,32 @@ class MainActivity : BaseActivity() {
                 is TaskListState.FirstSuccess -> {
                     if (it.list.isEmpty()) {
                         binding.pageRefresh.showEmpty(getString(R.string.no_task))
-                        binding.pageRefresh.finish(false,false)
+                        binding.pageRefresh.finishRefreshWithNoMoreData()
                     } else {
                         binding.recyclerView.models = it.list
                         viewModel.updateState(binding.recyclerView.models)
                         binding.pageRefresh.showContent(it.list.size >= 20)
-                        binding.pageRefresh.finish(true,it.list.size >= 20)
+                        binding.pageRefresh.finishRefresh(0,true,it.hasMore)
 
                     }
                 }
 
                 is TaskListState.FirstFail -> {
+                    binding.pageRefresh.finishRefresh(false)
                     binding.pageRefresh.showError(it.msg,true)
-                    binding.pageRefresh.finish(false,false)
                 }
 
                 is TaskListState.MoreSuccess -> {
                     binding.recyclerView.addModels(it.list)
                     viewModel.updateState(binding.recyclerView.models)
                     binding.pageRefresh.showContent(it.list.size >= 20)
-                    binding.pageRefresh.finish(true,it.list.size >= 20)
+                    binding.pageRefresh.finishLoadMore(0,true,it.hasMore)
                 }
 
                 is TaskListState.MoreFail -> {
-                    binding.pageRefresh.showContent(true)
                     showSnackBar(it.msg)
-                    binding.pageRefresh.finish(false,true)
+                    binding.pageRefresh.showContent()
+                    binding.pageRefresh.finishLoadMore(false)
                 }
 
                 is TaskListState.StateUpdate -> {
@@ -257,7 +257,10 @@ class MainActivity : BaseActivity() {
                     MaterialDialog(this).show {
                         title(R.string.package_success)
                         message(text = getString(R.string.package_success_hint,it.path))
-                        positiveButton(R.string.done)
+                        positiveButton(R.string.install){_->
+                            viewModel.installApk(it.path)
+                        }
+                        negativeButton(R.string.done)
                     }
                 }
             }

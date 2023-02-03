@@ -50,9 +50,9 @@ class MainViewModel : BaseViewModel() {
             if (result.isSuccess() && result.result?.data != null) {
                 taskStart = result.start
                 if (start.isEmpty()) {
-                    taskState.postValue(TaskListState.FirstSuccess(result.result!!.data!!))
+                    taskState.postValue(TaskListState.FirstSuccess(result.result!!.data!!,result.more == 1))
                 } else {
-                    taskState.postValue(TaskListState.MoreSuccess(result.result!!.data!!))
+                    taskState.postValue(TaskListState.MoreSuccess(result.result!!.data!!,result.more == 1))
                 }
             } else {
                 if (start.isEmpty()) {
@@ -127,5 +127,9 @@ class MainViewModel : BaseViewModel() {
                 packageState.postValue(PackageState.Fail(path))
             }
         }
+    }
+
+    fun installApk(path: String) {
+
     }
 }

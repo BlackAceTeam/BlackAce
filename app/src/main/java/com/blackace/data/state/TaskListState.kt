@@ -9,11 +9,11 @@ import com.blackace.data.entity.http.TaskBean
  */
 sealed interface TaskListState {
 
-    data class FirstSuccess(val list: List<TaskBean>) : TaskListState
+    data class FirstSuccess(val list: List<TaskBean>,val hasMore:Boolean) : TaskListState
 
     data class FirstFail(val msg: String):TaskListState
 
-    data class MoreSuccess(val list: List<TaskBean>) : TaskListState
+    data class MoreSuccess(val list: List<TaskBean>,val hasMore:Boolean) : TaskListState
 
     data class MoreFail(val msg: String):TaskListState
 

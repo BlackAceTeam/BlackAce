@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="24dp">
+
+    <TextView
+        android:id="@+id/tvKeyStore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_keystore"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/llStore"
+        app:layout_constraintBottom_toBottomOf="@id/llStore"/>
+
+    <LinearLayout
+        android:id="@+id/llStore"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvKeyStore"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvStoreImpl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/default_sign"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16dp" />
+
+        <ImageView
+            android:id="@+id/ivStore"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_drop"
+            app:tint="?android:attr/textColorPrimary" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvKeyModel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_model"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="16dp"
+        app:layout_constraintTop_toTopOf="@id/llModel"
+        app:layout_constraintBottom_toBottomOf="@id/llModel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/llModel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvKeyModel"
+        app:layout_constraintTop_toBottomOf="@id/llStore">
+
+        <TextView
+            android:id="@+id/tvModelImpl"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="16dp"
+            tools:text="V1+V2+V3" />
+
+        <ImageView
+            android:id="@+id/ivModel"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_drop"
+            app:tint="?android:attr/textColorPrimary" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

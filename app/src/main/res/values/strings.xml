@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">BlackAce</string>
+
+    <string name="local_application">应用</string>
+    <string name="local_file">文件</string>
+    <string name="sign_keystore">签名密钥</string>
+    <string name="sign_model">签名方案</string>
+    <string name="add_task">添加任务</string>
+    <string name="app_pkg">包名</string>
+    <string name="app_version">版本</string>
+    <string name="app_size">安装包大小</string>
+    <string name="app_protect">加固检测</string>
+    <string name="app_setting">软件设置</string>
+    <string name="app_manager">软件管理</string>
+    <string name="sign_manager">签名管理</string>
+    <string name="about_app">关于软件</string>
+    <string name="no_login">未登录</string>
+    <string name="login_pls">请先登录</string>
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="register_account">注册账号</string>
+    <string name="click_login">点击登录</string>
+
+    <string name="login_hint">欢迎回来\n登录后即可使用软件全部功能</string>
+
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="confirm_pass">确认密码</string>
+    <string name="email">邮箱</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="password_must_6">密码至少为6位</string>
+    <string name="username_must_no_empty">用户名不能为空</string>
+    <string name="password_must_confirm">前后密码不一致</string>
+    <string name="no_email">邮箱格式不正确</string>
+    <string name="feature">特色功能</string>
+
+    <string name="create_task">创建任务</string>
+
+    <string name="request_permission">授予权限</string>
+    <string name="request_permission_hint">我们需要文件读写权限，才能读取设备中的文件</string>
+    <string name="done">确定</string>
+    <string name="cancel">取消</string>
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
+
+    <string name="default_sign">默认</string>
+    <string name="sign_file_was_delete">签名文件不存在</string>
+    <string name="sign_pass_error">签名文件无法打开，请检查密码是否正确</string>
+    <string name="sign_alias_pass_error">签名文件无法打开，请检查别名密码是否正确</string>
+    <string name="add">添加</string>
+    <string name="add_sign">添加签名</string>
+    <string name="local_sign">已保存签名</string>
+    <string name="alias">别名</string>
+    <string name="alias_pass">别名密码</string>
+    <string name="delete_sign">删除</string>
+    <string name="delete_sign_hint">是否删除该签名？删除后将无法使用。</string>
+    <string name="delete_task">删除任务</string>
+    <string name="delete_task_hint">是否删除该任务？删除后将从任务列表中移除。</string>
+    <string name="no_task">暂无任务，请点击右下角按钮添加</string>
+    <string name="no_sign">暂无签名，请在添加签名界面添加</string>
+    <string name="task_wait">等待中</string>
+    <string name="task_success">打包</string>
+    <string name="task_error">处理失败</string>
+    <string name="task_processing">任务处理中，请等待处理完成</string>
+    <string name="task_process_fail">任务处理失败，%s</string>
+    <string name="task_process_again">该任务已生成APK，无法再次生成</string>
+    <string name="package_apk">生成APK</string>
+    <string name="select_sign">请选择签名</string>
+    <string name="start_package">开始打包</string>
+    <string name="apk_was_delete">本地APK已被删除</string>
+    <string name="input_no_null">输入不能为空</string>
+    <string name="package_success">打包成功</string>
+    <string name="package_success_hint">生成的APK储存在%s</string>
+</resources>

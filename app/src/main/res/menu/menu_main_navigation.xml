@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/main_app_manager"
+        android:icon="@drawable/ic_apps"
+        android:title="@string/app_manager" />
+
+    <item
+        android:id="@+id/main_sign_manager"
+        android:icon="@drawable/ic_key"
+        android:title="@string/sign_manager" />
+
+    <item
+        android:icon="@drawable/ic_info"
+        android:id="@+id/main_about_app"
+        android:title="@string/about_app" />
+</menu>

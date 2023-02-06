@@ -50,9 +50,9 @@ class MainViewModel : BaseViewModel() {
             if (result.isSuccess() && result.result?.data != null) {
                 taskStart = result.start
                 if (start.isEmpty()) {
-                    taskState.postValue(TaskListState.FirstSuccess(result.result!!.data!!,result.more == 1))
+                    taskState.postValue(TaskListState.FirstSuccess(result.result!!.data!!, result.more == 1))
                 } else {
-                    taskState.postValue(TaskListState.MoreSuccess(result.result!!.data!!,result.more == 1))
+                    taskState.postValue(TaskListState.MoreSuccess(result.result!!.data!!, result.more == 1))
                 }
             } else {
                 if (start.isEmpty()) {
@@ -92,6 +92,8 @@ class MainViewModel : BaseViewModel() {
                 }
 
                 taskState.postValue(TaskListState.StateUpdate(originMap.values.toList()))
+            } else if (!result.isSuccess()) {
+                updateState(list)
             }
 
         }
@@ -120,7 +122,7 @@ class MainViewModel : BaseViewModel() {
     fun packageApk(taskBean: TaskBean, signBean: SignBean, signModel: Int) {
         packageState.postValue(PackageState.Loading)
         launchIO {
-            val path = TaskRepository.packageApk(signBean, taskBean,signModel)
+            val path = TaskRepository.packageApk(signBean, taskBean, signModel)
             if (path.startsWith("/")) {
                 packageState.postValue(PackageState.Success(path))
             } else {

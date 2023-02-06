@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.blackace.util.ext.baseActivity
+import com.google.android.material.snackbar.Snackbar
 
 /**
  *
@@ -19,6 +21,14 @@ open class BaseFragment(private val layoutID: Int) : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(layoutID, container, false)
+    }
+
+    fun showSnackBar(id: Int) {
+        showSnackBar(getString(id))
+    }
+
+    fun showSnackBar(msg: String) {
+        baseActivity().showSnackBar(msg)
     }
 
     open fun onBack(): Boolean {

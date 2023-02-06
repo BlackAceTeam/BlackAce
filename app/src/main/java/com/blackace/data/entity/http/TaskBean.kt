@@ -38,4 +38,6 @@ data class TaskBean(
         const val STATE_FAIL = -1
         const val STATE_APK_DELETE = 3
     }
+
+    var isCheck = false
 }

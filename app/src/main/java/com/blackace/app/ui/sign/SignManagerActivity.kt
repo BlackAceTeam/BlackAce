@@ -9,14 +9,11 @@ import androidx.viewpager2.widget.ViewPager2
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
-import com.afollestad.materialdialogs.customview.getCustomView
 import com.blackace.R
 import com.blackace.app.base.BaseActivity
 import com.blackace.app.ui.file.FileDecoder
 import com.blackace.app.ui.file.FileFragment
-import com.blackace.app.ui.local.LocalActivity
 import com.blackace.app.ui.local.LocalPagerAdapter
-import com.blackace.app.ui.local.app.AppFragment
 import com.blackace.data.state.SignManagerState
 import com.blackace.databinding.ActivitySignManagerBinding
 import com.blackace.databinding.DialogAddSignBinding
@@ -94,14 +91,6 @@ class SignManagerActivity : BaseActivity(), FileDecoder {
                     dismissLoadingDialog()
                 }
             }
-        }
-    }
-
-
-    override fun onBackPressed() {
-        val canBack = fragmentList[binding.viewPager.currentItem].onBack()
-        if (canBack) {
-            finish()
         }
     }
 

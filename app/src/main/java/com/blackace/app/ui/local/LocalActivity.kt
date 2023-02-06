@@ -1,30 +1,24 @@
 package com.blackace.app.ui.local
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.customListAdapter
-import com.afollestad.materialdialogs.list.getRecyclerView
 import com.blackace.R
 import com.blackace.app.base.BaseActivity
 import com.blackace.app.contract.ResultCodes
-import com.blackace.app.ui.local.app.AppFragment
 import com.blackace.app.ui.file.FileDecoder
 import com.blackace.app.ui.file.FileFragment
+import com.blackace.app.ui.local.app.AppFragment
 import com.blackace.data.entity.AppBean
-import com.blackace.data.entity.FileBean
 import com.blackace.data.entity.http.FeatureBean
 import com.blackace.data.state.CreateTaskState
 import com.blackace.data.state.FeatureState
 import com.blackace.databinding.ActivityLocalBinding
 import com.blackace.databinding.ItemDialogFeatureBinding
-import com.blackace.util.ext.log
 import com.drake.brv.BindingAdapter
-import com.drake.brv.utils.linear
-import com.drake.brv.utils.setup
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 
@@ -119,13 +113,6 @@ class LocalActivity : BaseActivity(), FileDecoder {
         })
     }
 
-    override fun onBackPressed() {
-        val canBack = fragmentList[binding.viewPager.currentItem].onBack()
-        if (canBack) {
-            finish()
-        }
-    }
-
     override fun fileClick(path: String) {
         if (path.endsWith(".apk")) {
             viewModel.loadFeatures(path)
@@ -178,12 +165,4 @@ class LocalActivity : BaseActivity(), FileDecoder {
         }
     }
 
-
-    companion object {
-
-        fun start(activity: BaseActivity) {
-            val intent = Intent(activity, LocalActivity::class.java)
-            activity.startActivityForResult(intent, 101)
-        }
-    }
 }

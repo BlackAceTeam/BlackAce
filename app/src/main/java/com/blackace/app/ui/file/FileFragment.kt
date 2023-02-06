@@ -32,6 +32,7 @@ class FileFragment : BaseFragment(R.layout.fragment_file) {
         checkPermission()
         initView()
         initData()
+        registerOnBackPress()
     }
 
 
@@ -80,14 +81,13 @@ class FileFragment : BaseFragment(R.layout.fragment_file) {
         }
     }
 
-    override fun onBack(): Boolean {
+    override fun onBack() {
         val count = childFragmentManager.backStackEntryCount
 
-        return if (count > 1) {
+         if (count > 1) {
             childFragmentManager.popBackStack()
-            false
         } else {
-            true
+            requireActivity().finish()
         }
     }
 

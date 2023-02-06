@@ -69,12 +69,15 @@ object TaskRepository {
         }
     }
 
-    suspend fun taskDelete(bean: TaskBean): BaseResult<Any> {
+    suspend fun taskDelete(list: List<TaskBean>): BaseResult<Any> {
         return try {
-            val result = ApiHolder.api.taskDelete(bean.taskNo)
+            val taskNo = list.map { it.taskNo }.joinToString(",")
+            val result = ApiHolder.api.taskDelete(taskNo)
             if (result.isSuccess()){
-                val apkFile = File(ContextHolder.get().externalCacheDir, "apks/${bean.clientTaskNo}.apk")
-                apkFile.delete()
+                list.forEach {
+                    val apkFile = File(ContextHolder.get().externalCacheDir, "apks/${it.clientTaskNo}.apk")
+                    apkFile.delete()
+                }
             }
             result
         } catch (e: Exception) {

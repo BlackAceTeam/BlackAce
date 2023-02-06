@@ -21,5 +21,5 @@ sealed interface TaskListState {
 
     data class SimpleFail(val msg: String):TaskListState
 
-    data class Delete(val position:Int):TaskListState
+    object Delete:TaskListState
 }

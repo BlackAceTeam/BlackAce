@@ -56,7 +56,7 @@
     <string name="delete_sign">删除</string>
     <string name="delete_sign_hint">是否删除该签名？删除后将无法使用。</string>
     <string name="delete_task">删除任务</string>
-    <string name="delete_task_hint">是否删除该任务？删除后将从任务列表中移除。</string>
+    <string name="delete_task_hint">是否删除所选任务？删除后将从任务列表中移除，并且释放本地APK占用空间。</string>
     <string name="no_task">暂无任务，请点击右下角按钮添加</string>
     <string name="no_sign">暂无签名，请在添加签名界面添加</string>
     <string name="task_wait">等待中</string>

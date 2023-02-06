@@ -10,7 +10,6 @@ import com.blackace.data.entity.http.TaskBean
 import com.blackace.data.state.PackageState
 import com.blackace.data.state.TaskListState
 import com.blackace.data.state.UserState
-import com.blackace.util.ext.log
 import kotlinx.coroutines.delay
 
 /**
@@ -100,11 +99,11 @@ class MainViewModel : BaseViewModel() {
 
     }
 
-    fun taskDelete(model: TaskBean, position: Int) {
+    fun taskDelete(list: List<TaskBean>) {
         launchIO {
-            val result = TaskRepository.taskDelete(model)
+            val result = TaskRepository.taskDelete(list)
             if (result.isSuccess()) {
-                taskState.postValue(TaskListState.Delete(position))
+                taskState.postValue(TaskListState.Delete)
             } else {
                 taskState.postValue(TaskListState.SimpleFail(result.msg))
             }

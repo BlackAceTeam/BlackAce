@@ -70,7 +70,7 @@ class AccountViewModel : BaseViewModel() {
 
     fun sendEmailVerify(account: String? = null) {
 
-        if (emailState.value !is SendEmailState.Ready) {
+        if (emailState.value is SendEmailState.Wait || emailState.value is SendEmailState.Loading) {
             return
         }
 

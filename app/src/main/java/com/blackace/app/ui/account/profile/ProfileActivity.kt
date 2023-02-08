@@ -63,7 +63,8 @@ class ProfileActivity : BaseActivity() {
             }
 
             onClick(R.id.tvMsg) {
-                if (modelPosition == 3) {
+                val model = getModel<Pair<Int, String>>()
+                if (model.first == R.string.password) {
                     //修改密码
                     PasswordChangeFragment().show(supportFragmentManager, "PasswordChange")
                 }
@@ -99,8 +100,8 @@ class ProfileActivity : BaseActivity() {
                         cancelable(false)
                         cancelOnTouchOutside(false)
                         title(R.string.change_password)
-                        message(text = getString(R.string.password_change_success_with_pass,it.password))
-                        positiveButton(R.string.done){
+                        message(text = getString(R.string.password_change_success_with_pass, it.password))
+                        positiveButton(R.string.done) {
                             setResult(ProfileActivityContract.UPDATE_CONFIG)
                             finish()
                         }
@@ -115,9 +116,9 @@ class ProfileActivity : BaseActivity() {
         }
     }
 
-    private fun initView(){
+    private fun initView() {
         binding.btnLogout.setOnClickListener {
-            showConfirmDialog(R.string.login_out,R.string.login_out_hint){
+            showConfirmDialog(R.string.login_out, R.string.login_out_hint) {
                 accountViewModel.logout()
                 setResult(ProfileActivityContract.UPDATE_CONFIG)
                 finish()

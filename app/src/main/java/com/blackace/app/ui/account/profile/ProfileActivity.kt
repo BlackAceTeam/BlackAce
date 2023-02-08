@@ -14,7 +14,7 @@ import com.blackace.data.state.UserState
 import com.blackace.databinding.ActivityProfileBinding
 import com.blackace.databinding.ItemProfileSimpleBinding
 import com.blackace.databinding.ItemProfileTitleBinding
-import com.blackace.util.ToastUtil
+import com.blackace.util.ext.date
 import com.blackace.util.ext.showConfirmDialog
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
@@ -130,6 +130,7 @@ class ProfileActivity : BaseActivity() {
             R.string.account_setting,
             R.string.username to bean.name,
             R.string.email to bean.email,
+            R.string.register_time to bean.registerTime.date("yyyy-MM-dd"),
             R.string.password to getString(R.string.change_password_now),
         )
     }

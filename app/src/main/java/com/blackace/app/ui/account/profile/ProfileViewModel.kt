@@ -2,13 +2,8 @@ package com.blackace.app.ui.account.profile
 
 import androidx.lifecycle.MutableLiveData
 import com.blackace.app.base.BaseViewModel
-import com.blackace.data.UserRepository
 import com.blackace.data.config.AceConfig
-import com.blackace.data.state.ChangePassState
-import com.blackace.data.state.SendEmailState
 import com.blackace.data.state.UserState
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 
 /**
  *

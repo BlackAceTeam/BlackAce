@@ -8,7 +8,6 @@ import com.blackace.data.state.ChangePassState
 import com.blackace.data.state.LoginState
 import com.blackace.data.state.RegisterState
 import com.blackace.data.state.SendEmailState
-import com.blackace.util.ext.log
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 

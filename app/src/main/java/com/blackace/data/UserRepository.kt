@@ -19,7 +19,7 @@ object UserRepository {
         val result = ApiHolder.api.login(username, password)
         if (result.isSuccess() && result.result != null) {
             val data = result.result!!
-            val userBean = UserBean(data.id, data.account, data.email, data.token)
+            val userBean = UserBean(data.id, data.account, data.email, data.token,data.registerTime)
             AceConfig.saveUser(userBean)
             return null
         }
@@ -32,7 +32,7 @@ object UserRepository {
         val result = ApiHolder.api.register(username, password, email)
         if (result.isSuccess() && result.result != null) {
             val data = result.result!!
-            val userBean = UserBean(data.id, data.account, data.email, data.token)
+            val userBean = UserBean(data.id, data.account, data.email, data.token,data.registerTime)
             AceConfig.saveUser(userBean)
             return null
         }

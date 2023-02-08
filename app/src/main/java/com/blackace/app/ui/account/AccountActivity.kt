@@ -1,18 +1,15 @@
 package com.blackace.app.ui.account
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.blackace.R
 import com.blackace.app.base.BaseActivity
-import com.blackace.app.contract.ProfileActivityContract
 import com.blackace.app.contract.ResultCodes
 import com.blackace.data.state.ChangePassState
 import com.blackace.databinding.ActivityAccountBinding
 import com.blackace.util.ToastUtil
-import com.gyf.immersionbar.ktx.immersionBar
 
 /**
  *

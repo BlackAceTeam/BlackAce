@@ -9,5 +9,6 @@ data class RegisterBean(
     val account:String,
     val id:String,
     val token:String,
-    val email:String
+    val email:String,
+    val registerTime:Long
 )

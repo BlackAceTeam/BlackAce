@@ -9,5 +9,6 @@ data class UserBean(
     val id:String,
     val name:String,
     val email:String,
-    val token:String
+    val token:String,
+    val registerTime:Long
 )

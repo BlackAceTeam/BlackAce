@@ -14,12 +14,15 @@
     <string name="app_manager">软件管理</string>
     <string name="sign_manager">签名管理</string>
     <string name="about_app">关于软件</string>
+    <string name="user_info">用户信息</string>
     <string name="no_login">未登录</string>
     <string name="login_pls">请先登录</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="register_account">注册账号</string>
     <string name="click_login">点击登录</string>
+    <string name="account_setting">账号设置</string>
+    <string name="other">其它</string>
 
     <string name="login_hint">欢迎回来\n登录后即可使用软件全部功能</string>
 
@@ -29,9 +32,25 @@
     <string name="email">邮箱</string>
     <string name="forget_password">忘记密码</string>
     <string name="password_must_6">密码至少为6位</string>
+    <string name="verify_must_6">验证码应为6位纯数字</string>
     <string name="username_must_no_empty">用户名不能为空</string>
     <string name="password_must_confirm">前后密码不一致</string>
     <string name="no_email">邮箱格式不正确</string>
+    <string name="change_password">修改密码</string>
+    <string name="change_password_now">点击修改密码</string>
+    <string name="find_password">找回密码</string>
+    <string name="login_out">退出登录</string>
+    <string name="confirm_change">确定修改</string>
+    <string name="origin_pass">原密码</string>
+    <string name="email_verify">邮箱验证码</string>
+    <string name="send_now">立刻发送</string>
+    <string name="resend">重新发送%d</string>
+    <string name="new_pass">新密码</string>
+    <string name="verify_send_to">验证码将发送到注册时填写的邮箱</string>
+    <string name="verify_was_send">验证码已发送到邮箱%s</string>
+    <string name="login_out_hint">是否退出登录？</string>
+    <string name="password_change_success">密码修改成功，请重新登录</string>
+    <string name="bind_email_with_register">邮箱地址</string>
     <string name="feature">特色功能</string>
 
     <string name="create_task">创建任务</string>

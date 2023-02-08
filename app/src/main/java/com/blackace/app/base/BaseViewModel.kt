@@ -2,6 +2,7 @@ package com.blackace.app.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,9 +20,9 @@ open class BaseViewModel : ViewModel() {
         }
     }
 
-    fun launchIO(block: suspend () -> Unit) {
+    fun launchIO(block: suspend CoroutineScope.() -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            block.invoke()
+            block.invoke(this)
         }
     }
 

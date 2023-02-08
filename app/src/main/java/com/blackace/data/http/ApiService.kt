@@ -27,6 +27,14 @@ interface ApiService {
         @Field("email") email: String
     ): BaseResult<RegisterBean>
 
+    @POST("/account/reset_password/ANDROID/1")
+    @FormUrlEncoded
+    suspend fun changePassword(@Field("code") verify: String,@Field("password") newPass: String,@Field("account") account: String): BaseResult<Any>
+
+    @POST("/account/reset_password_code/ANDROID/1")
+    @FormUrlEncoded
+    suspend fun sendEmailVerify(@Field("account") account: String): BaseResult<Any>
+
     @POST("/task/feature/list/ANDROID/1")
     @FormUrlEncoded
     suspend fun featureList(@Field("supportVersion") supportVersion: Int = 1): BaseResult<BaseListBean<FeatureBean>>

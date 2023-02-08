@@ -33,19 +33,18 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     }
 
     private fun initViewModel() {
-        viewModel.registerState.observe(viewLifecycleOwner){
-            when(it){
-                is RegisterState.Loading->{
+        viewModel.registerState.observe(viewLifecycleOwner) {
+            when (it) {
+                is RegisterState.Loading -> {
                     showLoadingDialog()
                 }
 
-                is RegisterState.Fail->{
+                is RegisterState.Fail -> {
                     dismissLoadingDialog()
                     binding.layoutUsername.error = it.msg
                 }
 
-                is RegisterState.Success->{
-                    log("success")
+                is RegisterState.Success -> {
                     dismissLoadingDialog()
                     attachActivity<AccountActivity>().loginSuccess()
                 }
@@ -54,18 +53,12 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     }
 
     private fun initEdit() {
-        addClearTextChange(binding.layoutUsername, binding.editUsername)
-        addClearTextChange(binding.layoutEmail, binding.editEmail)
-        addClearTextChange(binding.layoutPassword, binding.editPassword)
-        addClearTextChange(binding.layoutConfirm, binding.editConfirm)
+        binding.layoutUsername.autoClearError()
+        binding.layoutEmail.autoClearError()
+        binding.layoutPassword.autoClearError()
+        binding.layoutConfirm.autoClearError()
     }
 
-    private fun addClearTextChange(layout: TextInputLayout, edit: TextInputEditText) {
-        edit.addTextChangedListener {
-            layout.error = null
-            layout.isErrorEnabled = false
-        }
-    }
 
     private fun initButton() {
         binding.btnRegister.setOnClickListener {

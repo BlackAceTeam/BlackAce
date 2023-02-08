@@ -34,6 +34,7 @@
 
         <activity android:name=".app.ui.local.LocalActivity"/>
         <activity android:name=".app.ui.account.AccountActivity"/>
+        <activity android:name=".app.ui.account.profile.ProfileActivity"/>
         <activity android:name=".app.ui.sign.SignManagerActivity"/>
     </application>
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import com.blackace.util.ext.baseActivity
@@ -23,10 +24,6 @@ open class BaseFragment(private val layoutID: Int) : Fragment() {
         return inflater.inflate(layoutID, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
 
     fun showSnackBar(id: Int) {
         showSnackBar(getString(id))
@@ -36,10 +33,15 @@ open class BaseFragment(private val layoutID: Int) : Fragment() {
         baseActivity().showSnackBar(msg)
     }
 
-    fun registerOnBackPress() {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-            onBack()
+
+    protected val mBackPressedCallback by lazy {
+        val mCallback = object : OnBackPressedCallback(false) {
+            override fun handleOnBackPressed() {
+                onBack()
+            }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, mCallback)
+        mCallback
     }
 
     open fun onBack() {

@@ -34,8 +34,6 @@ class AccountViewModel : BaseViewModel() {
         launchIO {
             registerState.postValue(RegisterState.Loading)
             val msg = UserRepository.register(username, email, password)
-            log("register finish")
-            log(msg)
             if (msg != null) {
                 registerState.postValue(RegisterState.Fail(msg))
             } else {

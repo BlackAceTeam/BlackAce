@@ -32,13 +32,12 @@ class FileFragment : BaseFragment(R.layout.fragment_file) {
         checkPermission()
         initView()
         initData()
-        registerOnBackPress()
     }
 
 
     override fun onStart() {
         super.onStart()
-        if (!hasPermission){
+        if (!hasPermission) {
             checkPermission()
             initData()
         }
@@ -68,26 +67,17 @@ class FileFragment : BaseFragment(R.layout.fragment_file) {
             add(R.id.fragmentFile, fragment)
             addToBackStack(path)
         }
+
     }
 
 
-    private fun checkPermission(){
+    private fun checkPermission() {
         hasPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             Environment.isExternalStorageManager()
-        } else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requireActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-        }else{
-            true
-        }
-    }
-
-    override fun onBack() {
-        val count = childFragmentManager.backStackEntryCount
-
-         if (count > 1) {
-            childFragmentManager.popBackStack()
         } else {
-            requireActivity().finish()
+            true
         }
     }
 

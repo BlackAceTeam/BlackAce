@@ -8,6 +8,7 @@ import androidx.fragment.app.commit
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.blackace.R
 import com.blackace.app.base.BaseFragment
+import com.blackace.app.ui.account.profile.PasswordFindFragment
 import com.blackace.app.ui.file.FileChildFragment
 import com.blackace.data.state.LoginState
 import com.blackace.databinding.FragmentLoginBinding
@@ -53,14 +54,8 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     }
 
     private fun initEdit() {
-        binding.editPassword.addTextChangedListener {
-            binding.layoutPassword.error = ""
-            binding.layoutPassword.isErrorEnabled = false
-        }
-        binding.editUsername.addTextChangedListener {
-            binding.layoutUsername.error = ""
-            binding.layoutPassword.isErrorEnabled = false
-        }
+        binding.layoutPassword.autoClearError()
+        binding.layoutUsername.autoClearError()
     }
 
     private fun initButton() {
@@ -76,6 +71,10 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
                 add(R.id.fragmentContainer, RegisterFragment(), "Register")
                 addToBackStack("Register")
             }
+        }
+
+        binding.btnForget.setOnClickListener {
+            PasswordFindFragment().show(childFragmentManager,"PasswordChange")
         }
     }
 

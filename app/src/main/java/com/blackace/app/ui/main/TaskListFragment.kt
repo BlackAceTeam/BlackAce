@@ -36,7 +36,6 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
         initViewModel()
         initRecyclerView()
         initFab()
-        registerOnBackPress()
     }
 
     private fun initViewModel() {
@@ -90,10 +89,8 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
 
                 is TaskListState.Delete -> {
                     dismissLoadingDialog()
+                    exitToggleMode()
                     viewModel.loadTaskList("")
-                    mAdapter.toggle(false)
-                    mAdapter.checkedAll(false)
-                    binding.fab.setImageResource(R.drawable.ic_add)
                 }
             }
         }
@@ -150,6 +147,7 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
                 if (!toggleMode) {
                     toggle()
                     setChecked(layoutPosition, true)
+                    mBackPressedCallback.isEnabled = true
                     binding.fab.setImageResource(R.drawable.ic_delete)
                 }
             }
@@ -246,6 +244,13 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
         }
     }
 
+    private fun exitToggleMode(){
+        mAdapter.toggle(false)
+        mAdapter.checkedAll(false)
+        binding.fab.setImageResource(R.drawable.ic_add)
+        mBackPressedCallback.isEnabled = false
+    }
+
     private val createTaskContract = registerForActivityResult(TaskCreateContract()) {
         if (it) {
             binding.pageRefresh.refresh()
@@ -254,11 +259,7 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
 
     override fun onBack() {
         if (mAdapter.toggleMode) {
-            mAdapter.toggle(false)
-            mAdapter.checkedAll(false)
-            binding.fab.setImageResource(R.drawable.ic_add)
-        } else {
-            requireActivity().finish()
+          exitToggleMode()
         }
     }
 }

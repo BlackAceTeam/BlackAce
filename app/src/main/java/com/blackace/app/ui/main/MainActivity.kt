@@ -9,6 +9,7 @@ import coil.load
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blackace.R
 import com.blackace.app.base.BaseActivity
+import com.blackace.app.contract.ProfileActivityContract
 import com.blackace.app.contract.ResultCodes
 import com.blackace.app.ui.account.AccountActivity
 import com.blackace.app.ui.local.LocalActivity
@@ -63,8 +64,7 @@ class MainActivity : BaseActivity() {
         val headerBinding = ViewMainNavigationHeaderBinding.bind(binding.navigation.getHeaderView(0))
         headerBinding.root.setOnClickListener {
             if (isLogin) {
-                AceConfig.saveUser(null)
-                viewModel.loadUserState()
+                userinfoContract.launch(Unit)
             } else {
                 AccountActivity.start(this)
             }
@@ -110,7 +110,7 @@ class MainActivity : BaseActivity() {
 
                 is PackageState.LoadSignSuccess -> {
                     dismissLoadingDialog()
-                    PackageFragment().show(supportFragmentManager,"PackageConfig")
+                    PackageFragment().show(supportFragmentManager, "PackageConfig")
                 }
 
                 is PackageState.Fail -> {
@@ -122,8 +122,8 @@ class MainActivity : BaseActivity() {
                     dismissLoadingDialog()
                     MaterialDialog(this).show {
                         title(R.string.package_success)
-                        message(text = getString(R.string.package_success_hint,it.path))
-                        positiveButton(R.string.install){_->
+                        message(text = getString(R.string.package_success_hint, it.path))
+                        positiveButton(R.string.install) { _ ->
                             viewModel.installApk(it.path)
                         }
                         negativeButton(R.string.done)
@@ -137,6 +137,12 @@ class MainActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == ResultCodes.LOGIN_SUCCESS) {
+            viewModel.loadUserState()
+        }
+    }
+
+    private val userinfoContract = registerForActivityResult(ProfileActivityContract()) {
+        if (it == ProfileActivityContract.UPDATE_CONFIG) {
             viewModel.loadUserState()
         }
     }

@@ -40,6 +40,9 @@ class FileChildFragment : BaseFragment(R.layout.fragment_child_file) {
     private fun initData() {
         val path = requireArguments().getString(FLAG_PATH) ?: "/"
         fileViewModel.loadFileList(path)
+
+        mBackPressedCallback.isEnabled = true
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -57,11 +60,7 @@ class FileChildFragment : BaseFragment(R.layout.fragment_child_file) {
             onClick(R.id.fileParent) {
                 val model = getModel<FileBean>()
                 if (model.path.isNullOrEmpty()) {
-                    if (parentFragmentManager.backStackEntryCount == 1) {
-                        requireActivity().finish()
-                    } else {
-                        parentFragmentManager.popBackStack()
-                    }
+                    onBack()
                 } else if (model.size.isNullOrEmpty()) {
                     //文件夹
                     nextFragment(model.path)
@@ -105,6 +104,14 @@ class FileChildFragment : BaseFragment(R.layout.fragment_child_file) {
         parentFragmentManager.commit {
             add(R.id.fragmentFile, fragment)
             addToBackStack(path)
+        }
+    }
+
+    override fun onBack() {
+        if (parentFragmentManager.backStackEntryCount == 1) {
+            requireActivity().finish()
+        } else {
+            parentFragmentManager.popBackStack()
         }
     }
 

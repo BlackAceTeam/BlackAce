@@ -144,6 +144,7 @@ class MainActivity : BaseActivity() {
     private val userinfoContract = registerForActivityResult(ProfileActivityContract()) {
         if (it == ProfileActivityContract.UPDATE_CONFIG) {
             viewModel.loadUserState()
+            AccountActivity.start(this)
         }
     }
 }

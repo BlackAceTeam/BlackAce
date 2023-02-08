@@ -9,7 +9,7 @@ sealed interface ChangePassState {
 
     object Loading : ChangePassState
 
-    object Success : ChangePassState
+    data class Success(val password: String) : ChangePassState
 
     data class Fail(val msg: String) : ChangePassState
 }

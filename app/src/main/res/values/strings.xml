@@ -50,6 +50,7 @@
     <string name="verify_was_send">验证码已发送到邮箱%s</string>
     <string name="login_out_hint">是否退出登录？</string>
     <string name="password_change_success">密码修改成功，请重新登录</string>
+    <string name="password_change_success_with_pass">密码修改成功，你的新密码为:%s,稍后请重新登录。</string>
     <string name="bind_email_with_register">邮箱地址</string>
     <string name="feature">特色功能</string>
 

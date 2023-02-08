@@ -2,22 +2,17 @@ package com.blackace.app.ui.account.profile
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.Toast
-import androidx.core.os.bundleOf
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blackace.R
+import com.blackace.app.ui.account.AccountViewModel
 import com.blackace.data.state.SendEmailState
 import com.blackace.databinding.DialogPasswordFindBinding
 import com.blackace.util.ToastUtil
 import com.blackace.util.ext.*
-import com.google.android.material.snackbar.Snackbar
-import java.io.PrintWriter
-import java.io.StringWriter
 
 
 /**
@@ -29,7 +24,7 @@ class PasswordFindFragment : DialogFragment() {
 
     private lateinit var binding: DialogPasswordFindBinding
 
-    private val viewModel by activityViewModels<ProfileViewModel>()
+    private val viewModel by activityViewModels<AccountViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog =

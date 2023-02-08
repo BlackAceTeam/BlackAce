@@ -2,19 +2,16 @@ package com.blackace.app.ui.account.profile
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.blackace.R
+import com.blackace.app.ui.account.AccountViewModel
 import com.blackace.databinding.DialogPasswordChangeBinding
-import com.blackace.databinding.FragmentPackageConfigBinding
 import com.blackace.util.ext.autoClearError
 import com.blackace.util.ext.hide
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
 /**
  *
@@ -25,7 +22,7 @@ class PasswordChangeFragment : DialogFragment() {
 
     private lateinit var binding: DialogPasswordChangeBinding
 
-    private val viewModel by activityViewModels<ProfileViewModel>()
+    private val viewModel by activityViewModels<AccountViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog =

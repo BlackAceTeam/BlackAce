@@ -3,9 +3,11 @@ package com.blackace.app.ui.account.profile
 import android.os.Bundle
 import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.afollestad.materialdialogs.MaterialDialog
 import com.blackace.R
 import com.blackace.app.base.BaseActivity
 import com.blackace.app.contract.ProfileActivityContract
+import com.blackace.app.ui.account.AccountViewModel
 import com.blackace.data.entity.UserBean
 import com.blackace.data.state.ChangePassState
 import com.blackace.data.state.UserState
@@ -26,6 +28,8 @@ import com.drake.brv.utils.setup
 class ProfileActivity : BaseActivity() {
 
     private val viewModel by viewModels<ProfileViewModel>()
+
+    private val accountViewModel by viewModels<AccountViewModel>()
 
     private val binding by viewBinding(ActivityProfileBinding::bind)
 
@@ -82,7 +86,7 @@ class ProfileActivity : BaseActivity() {
             }
         }
 
-        viewModel.actionState.observe(this) {
+        accountViewModel.actionState.observe(this) {
             when (it) {
                 is ChangePassState.Loading -> {
                     showLoadingDialog()
@@ -90,10 +94,17 @@ class ProfileActivity : BaseActivity() {
 
                 is ChangePassState.Success -> {
                     dismissLoadingDialog()
-                    ToastUtil.showToast(R.string.password_change_success)
-                    viewModel.logout()
-                    setResult(ProfileActivityContract.UPDATE_CONFIG)
-                    finish()
+                    accountViewModel.logout()
+                    MaterialDialog(this).show {
+                        cancelable(false)
+                        cancelOnTouchOutside(false)
+                        title(R.string.change_password)
+                        message(text = getString(R.string.password_change_success_with_pass,it.password))
+                        positiveButton(R.string.done){
+                            setResult(ProfileActivityContract.UPDATE_CONFIG)
+                            finish()
+                        }
+                    }
                 }
 
                 is ChangePassState.Fail -> {
@@ -107,7 +118,7 @@ class ProfileActivity : BaseActivity() {
     private fun initView(){
         binding.btnLogout.setOnClickListener {
             showConfirmDialog(R.string.login_out,R.string.login_out_hint){
-                viewModel.logout()
+                accountViewModel.logout()
                 setResult(ProfileActivityContract.UPDATE_CONFIG)
                 finish()
             }

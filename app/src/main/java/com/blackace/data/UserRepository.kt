@@ -3,10 +3,8 @@ package com.blackace.data
 import com.blackace.data.config.AceConfig
 import com.blackace.data.entity.UserBean
 import com.blackace.data.entity.http.BaseResult
-import com.blackace.data.state.LoginState
-import com.blackace.util.ext.log
+import com.blackace.data.entity.http.EmailBean
 import com.blackace.util.holder.ApiHolder
-import kotlinx.coroutines.delay
 
 /**
  *
@@ -20,7 +18,7 @@ object UserRepository {
             val result = ApiHolder.api.login(username, password)
             if (result.isSuccess() && result.result != null) {
                 val data = result.result!!
-                val userBean = UserBean(data.id, data.account, data.email, data.token, data.registerTime)
+                val userBean = UserBean(data.account, data.email, data.token, data.registerTime)
                 AceConfig.saveUser(userBean)
                 return null
             }
@@ -37,7 +35,7 @@ object UserRepository {
             val result = ApiHolder.api.register(username, password, email)
             if (result.isSuccess() && result.result != null) {
                 val data = result.result!!
-                val userBean = UserBean(data.id, data.account, data.email, data.token, data.registerTime)
+                val userBean = UserBean(data.account, data.email, data.token, data.registerTime)
                 AceConfig.saveUser(userBean)
                 return null
             }
@@ -60,15 +58,11 @@ object UserRepository {
         }
     }
 
-    suspend fun sendEmailVerify(account: String): String? {
-        try {
-            val result = ApiHolder.api.sendEmailVerify(account)
-            if (result.isSuccess() && result.result != null) {
-                return null
-            }
-            return result.msg
+    suspend fun sendEmailVerify(account: String): BaseResult<EmailBean> {
+        return try {
+            ApiHolder.api.sendEmailVerify(account)
         } catch (e: Exception) {
-            return e.message
+            BaseResult.fail(e.message.toString())
         }
     }
 

@@ -6,9 +6,8 @@ package com.blackace.data.entity
  * @create: 2022/12/16-下午2:56
  */
 data class UserBean(
-    val id:String,
     val name:String,
     val email:String,
-    val token:String,
+    val token:String = "",
     val registerTime:Long
 )

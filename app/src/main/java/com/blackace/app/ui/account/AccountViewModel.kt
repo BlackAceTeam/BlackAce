@@ -51,7 +51,6 @@ class AccountViewModel : BaseViewModel() {
     }
 
 
-
     fun changePassword(verify: String, newPass: String, account: String? = null) {
         var realAccount = account
         if (realAccount == null) {
@@ -81,12 +80,11 @@ class AccountViewModel : BaseViewModel() {
 
         emailState.postValue(SendEmailState.Loading)
         launchIO {
-            val msg = UserRepository.sendEmailVerify(realAccount)
-            if (msg != null) {
-                emailState.postValue(SendEmailState.Success(realAccount))
-//                todo emailState.postValue(SendEmailState.Fail(msg))
+            val result = UserRepository.sendEmailVerify(realAccount)
+            if (result.isSuccess() && result.result != null) {
+                emailState.postValue(SendEmailState.Success(result.result!!.email))
             } else {
-                emailState.postValue(SendEmailState.Success(realAccount))
+                emailState.postValue(SendEmailState.Fail(result.msg))
             }
 
             delay(1000)

@@ -33,7 +33,7 @@ interface ApiService {
 
     @POST("/account/reset_password_code/ANDROID/1")
     @FormUrlEncoded
-    suspend fun sendEmailVerify(@Field("account") account: String): BaseResult<Any>
+    suspend fun sendEmailVerify(@Field("account") account: String): BaseResult<EmailBean>
 
     @POST("/task/feature/list/ANDROID/1")
     @FormUrlEncoded

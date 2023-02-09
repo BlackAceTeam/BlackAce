@@ -54,9 +54,11 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
 
     private fun initEdit() {
         binding.layoutUsername.autoClearError()
-        binding.layoutEmail.autoClearError()
         binding.layoutPassword.autoClearError()
         binding.layoutConfirm.autoClearError()
+        binding.layoutEmail.autoClearError {
+            binding.layoutEmail.helperText = getString(R.string.register_email_hint)
+        }
     }
 
 

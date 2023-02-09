@@ -2,6 +2,7 @@ package com.blackace.util.ext
 
 import android.text.Editable
 import android.widget.EditText
+import android.widget.FrameLayout
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputLayout
 
@@ -12,7 +13,8 @@ import com.google.android.material.textfield.TextInputLayout
  */
 
 fun TextInputLayout.autoClearError(block: ((Editable?) -> Unit)? = null) {
-    val editText = getChildAt(0)
+    val frameLayout = getChildAt(0) as FrameLayout
+    val editText = frameLayout.getChildAt(0)
     if (editText !is EditText) {
         return
     }

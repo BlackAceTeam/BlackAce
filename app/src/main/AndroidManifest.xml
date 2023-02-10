@@ -37,6 +37,7 @@
         <activity android:name=".app.ui.account.profile.ProfileActivity"/>
         <activity android:name=".app.ui.sign.SignManagerActivity"/>
         <activity android:name=".app.ui.web.WebActivity"/>
+        <activity android:name=".app.ui.about.AboutActivity"/>
     </application>
 
 </manifest>

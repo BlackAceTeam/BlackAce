@@ -11,6 +11,7 @@ import com.blackace.R
 import com.blackace.app.base.BaseActivity
 import com.blackace.app.contract.ProfileActivityContract
 import com.blackace.app.contract.ResultCodes
+import com.blackace.app.ui.about.AboutActivity
 import com.blackace.app.ui.account.AccountActivity
 import com.blackace.app.ui.local.LocalActivity
 import com.blackace.app.ui.sign.SignManagerActivity
@@ -80,7 +81,7 @@ class MainActivity : BaseActivity() {
                     SignManagerActivity.start(this)
                 }
                 R.id.main_about_app -> {
-                    WebActivity.start(this,"https://www.baidu.com")
+                    AboutActivity.start(this)
                 }
             }
             true

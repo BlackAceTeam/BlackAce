@@ -14,6 +14,7 @@ import com.blackace.app.contract.ResultCodes
 import com.blackace.app.ui.account.AccountActivity
 import com.blackace.app.ui.local.LocalActivity
 import com.blackace.app.ui.sign.SignManagerActivity
+import com.blackace.app.ui.web.WebActivity
 import com.blackace.data.config.AceConfig
 import com.blackace.data.entity.http.TaskBean
 import com.blackace.data.state.PackageState
@@ -73,9 +74,13 @@ class MainActivity : BaseActivity() {
             when (it.itemId) {
                 R.id.main_app_manager -> {
 
+                    WebActivity.start(this,"https://www.baidu.com")
                 }
                 R.id.main_sign_manager -> {
                     SignManagerActivity.start(this)
+                }
+                R.id.main_about_app -> {
+                    WebActivity.start(this,"https://www.baidu.com")
                 }
             }
             true

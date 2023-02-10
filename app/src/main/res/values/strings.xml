@@ -87,6 +87,10 @@
     <string name="task_processing">任务处理中，请等待处理完成</string>
     <string name="task_process_fail">任务处理失败，%s</string>
     <string name="task_process_again">该任务已生成APK，无法再次生成</string>
+    <string name="task_app_name">软件名</string>
+    <string name="task_version_name">版本名</string>
+    <string name="task_version_code">版本号</string>
+    <string name="input_no_null_with_hint">%s不能为空</string>
     <string name="package_apk">生成APK</string>
     <string name="select_sign">请选择签名</string>
     <string name="start_package">开始打包</string>

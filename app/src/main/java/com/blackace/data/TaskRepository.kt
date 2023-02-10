@@ -12,7 +12,7 @@ import com.blackace.data.entity.http.BaseListBean
 import com.blackace.data.entity.http.BaseResult
 import com.blackace.data.entity.http.MoreBean
 import com.blackace.data.entity.http.TaskBean
-import com.blackace.util.getString
+import com.blackace.util.ext.getString
 import com.blackace.util.holder.ApiHolder
 import com.blackace.util.holder.ContextHolder
 import net.lingala.zip4j.ZipFile

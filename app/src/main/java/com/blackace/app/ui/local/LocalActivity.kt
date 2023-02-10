@@ -12,6 +12,7 @@ import com.blackace.app.contract.ResultCodes
 import com.blackace.app.ui.file.FileDecoder
 import com.blackace.app.ui.file.FileFragment
 import com.blackace.app.ui.local.app.AppFragment
+import com.blackace.app.ui.local.task.TaskCreateFragment
 import com.blackace.data.entity.AppBean
 import com.blackace.data.entity.http.FeatureBean
 import com.blackace.data.state.CreateTaskState
@@ -121,48 +122,23 @@ class LocalActivity : BaseActivity(), FileDecoder {
 
     private fun showFeatureListDialog(appBean: AppBean, featureList: List<FeatureBean>) {
 
-        featureAdapter.models = featureList
+//        featureAdapter.models = featureList
+//
+//        MaterialDialog(this).show {
+//            title(text = appBean.name)
+//            icon(drawable = appBean.icon)
+//            message(R.string.feature)
+//            customListAdapter(featureAdapter)
+//            positiveButton(R.string.create_task) {
+//                val selectFeature = featureList.filter { it.isCheck }.joinToString(",") { it.key }
+//                viewModel.createTask(appBean, selectFeature)
+//            }
+//            negativeButton(R.string.cancel)
+//        }
 
-        MaterialDialog(this).show {
-            title(text = appBean.name)
-            icon(drawable = appBean.icon)
-            message(R.string.feature)
-            customListAdapter(featureAdapter)
-            positiveButton(R.string.create_task) {
-                val selectFeature = featureList.filter { it.isCheck }.joinToString(",") { it.key }
-                viewModel.createTask(appBean, selectFeature)
-            }
-            negativeButton(R.string.cancel)
-        }
+        TaskCreateFragment().show(supportFragmentManager,"TaskCreate")
     }
 
-    private val featureAdapter by lazy {
-        BindingAdapter().apply {
-            addType<FeatureBean>(R.layout.item_dialog_feature)
 
-            onBind {
-                val binding = getBinding<ItemDialogFeatureBinding>()
-                val bean = getModel<FeatureBean>()
-                binding.tvDesc.text = bean.desc
-                binding.tvTitle.text = bean.title
-                binding.checkbox.isChecked = bean.isCheck
-            }
-
-            onChecked { position, checked, _ ->
-                val model = getModel<FeatureBean>(position)
-                model.isCheck = checked
-                notifyItemChanged(position)
-            }
-
-            onClick(R.id.featureParent) {
-                val checked = getModel<FeatureBean>().isCheck
-                setChecked(bindingAdapterPosition, !checked)
-            }
-
-            onClick(R.id.checkbox) {
-                setChecked(bindingAdapterPosition, !getModel<FeatureBean>().isCheck)
-            }
-        }
-    }
 
 }

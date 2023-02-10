@@ -1,5 +1,6 @@
-package com.blackace.util
+package com.blackace.util.ext
 
+import android.os.Build
 import com.blackace.util.holder.ContextHolder
 
 /**
@@ -14,4 +15,12 @@ fun getString(id:Int,vararg args:Any):String{
         ContextHolder.get().getString(id,*args)
     }
 
+}
+
+fun getColor(id: Int):Int{
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        ContextHolder.get().getColor(id)
+    } else {
+        ContextHolder.get().resources.getColor(id)
+    }
 }

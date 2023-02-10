@@ -3,7 +3,7 @@ package com.blackace.data
 import com.blackace.R
 import com.blackace.data.entity.db.SignBean
 import com.blackace.apksigner.KeyStoreHelper
-import com.blackace.util.getString
+import com.blackace.util.ext.getString
 import com.blackace.util.holder.ContextHolder
 import java.io.File
 import java.io.FileOutputStream

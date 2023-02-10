@@ -8,10 +8,10 @@ import android.graphics.drawable.Drawable
  * @create: 2022/12/14-下午9:59
  */
 data class AppBean(
-    val name: String,
+    var name: String,
     val pkg: String,
-    val version: String,
-    val versionCode: String,
+    var version: String,
+    var versionCode: String,
     val size: String,
     val source: String,
     val icon: Drawable?

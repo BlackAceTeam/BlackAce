@@ -1,6 +1,7 @@
 package com.blackace.util
 
 import android.widget.Toast
+import com.blackace.util.ext.getString
 import com.blackace.util.holder.ContextHolder
 
 /**

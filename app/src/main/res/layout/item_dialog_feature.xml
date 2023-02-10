@@ -9,9 +9,8 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -20,7 +19,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@id/tvDesc"
-        app:layout_constraintStart_toEndOf="@id/checkbox"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/checkbox" />
 
     <TextView
@@ -29,7 +28,7 @@
         android:layout_height="20dp"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="@id/checkbox"
-        app:layout_constraintStart_toEndOf="@id/checkbox"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -118,10 +118,11 @@ object LocalRepository {
         return AppBean(
             name,
             packageInfo.packageName,
-            packageInfo.versionName?:"",
+            packageInfo.versionName ?: "",
             versionCode,
             apkFile.size(),
             uri.toString(),
+            !packageInfo.splitNames.isNullOrEmpty(),
             icon
         )
     }
@@ -129,8 +130,9 @@ object LocalRepository {
 
     fun generateTaskBean(appBean: AppBean, feature: String): Map<String, String> {
         val uuid = UUID.randomUUID().toString()
-        val apkFile = File(ContextHolder.get().externalCacheDir, "apks/$uuid.apk")
-        apkFile.parentFile?.mkdirs()
+        val parentFile = File(ContextHolder.get().externalCacheDir, "apks")
+        parentFile.mkdir()
+        val apkFile = File(parentFile, "$uuid.apk")
         ContextHolder.get().contentResolver.openInputStream(Uri.parse(appBean.source)).use { input ->
             BufferedOutputStream(FileOutputStream(apkFile)).use { output ->
                 input?.copyTo(output)
@@ -161,11 +163,11 @@ object LocalRepository {
 
         val componentJson = JSONObject()
         val activities = JSONArray()
-        packageInfo.activities.forEach {
+        packageInfo.activities?.forEach {
             activities.put(it.name)
         }
         val permissions = JSONArray()
-        packageInfo.requestedPermissions.forEach {
+        packageInfo.requestedPermissions?.forEach {
             permissions.put(it)
         }
         componentJson.put("permissions", permissions)

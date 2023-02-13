@@ -90,6 +90,7 @@
     <string name="task_app_name">软件名</string>
     <string name="task_version_name">版本名</string>
     <string name="task_version_code">版本号</string>
+    <string name="task_create_fail">创建失败</string>
     <string name="input_no_null_with_hint">%s不能为空</string>
     <string name="package_apk">生成APK</string>
     <string name="select_sign">请选择签名</string>
@@ -98,4 +99,5 @@
     <string name="input_no_null">输入不能为空</string>
     <string name="package_success">打包成功</string>
     <string name="package_success_hint">生成的APK储存在%s</string>
+    <string name="not_support_apks">暂不支持Apks方式安装的软件，请安装APK版本的软件。</string>
 </resources>

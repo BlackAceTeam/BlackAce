@@ -54,7 +54,7 @@ class LocalActivity : BaseActivity(), FileDecoder {
 
                 is FeatureState.Success -> {
                     dismissLoadingDialog()
-                    showFeatureListDialog(it.appBean, it.list)
+                    TaskCreateFragment().show(supportFragmentManager,"TaskCreate")
                 }
 
                 is FeatureState.Fail -> {
@@ -119,26 +119,5 @@ class LocalActivity : BaseActivity(), FileDecoder {
             viewModel.loadFeatures(path)
         }
     }
-
-    private fun showFeatureListDialog(appBean: AppBean, featureList: List<FeatureBean>) {
-
-//        featureAdapter.models = featureList
-//
-//        MaterialDialog(this).show {
-//            title(text = appBean.name)
-//            icon(drawable = appBean.icon)
-//            message(R.string.feature)
-//            customListAdapter(featureAdapter)
-//            positiveButton(R.string.create_task) {
-//                val selectFeature = featureList.filter { it.isCheck }.joinToString(",") { it.key }
-//                viewModel.createTask(appBean, selectFeature)
-//            }
-//            negativeButton(R.string.cancel)
-//        }
-
-        TaskCreateFragment().show(supportFragmentManager,"TaskCreate")
-    }
-
-
 
 }

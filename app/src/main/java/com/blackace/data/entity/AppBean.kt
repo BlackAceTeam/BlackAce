@@ -14,5 +14,6 @@ data class AppBean(
     var versionCode: String,
     val size: String,
     val source: String,
+    val isSplitApk: Boolean,
     val icon: Drawable?
 )

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.afollestad.materialdialogs.MaterialDialog
 import com.blackace.R
 import com.blackace.app.base.BaseFragment
 import com.blackace.app.ui.local.LocalViewModel
@@ -12,7 +13,6 @@ import com.blackace.data.entity.AppBean
 import com.blackace.data.state.LocalAppState
 import com.blackace.databinding.FragmentAppBinding
 import com.blackace.databinding.ItemLocalAppBinding
-import com.drake.brv.BindingAdapter
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.drake.brv.utils.setup
@@ -48,7 +48,16 @@ class AppFragment : BaseFragment(R.layout.fragment_app) {
             }
             onClick(R.id.appParent) {
                 val model = getModel<AppBean>()
-                viewModel.loadFeatures(model)
+                if (model.isSplitApk) {
+                    MaterialDialog(requireContext()).show {
+                        title(R.string.task_create_fail)
+                        message(R.string.not_support_apks)
+                        positiveButton(R.string.done)
+                    }
+                } else {
+                    viewModel.loadFeatures(model)
+
+                }
             }
         }
     }

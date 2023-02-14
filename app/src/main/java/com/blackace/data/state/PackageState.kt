@@ -16,5 +16,5 @@ sealed interface PackageState {
 
     data class LoadSignSuccess(val model: TaskBean, val list: List<SignBean>) : PackageState
 
-    data class Success(val path: String) : PackageState
+    data class Success(val pkg: String, val path: String, val appName: String) : PackageState
 }

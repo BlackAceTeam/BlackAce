@@ -2,11 +2,13 @@ package com.blackace.app.ui.main
 
 import androidx.lifecycle.MutableLiveData
 import com.blackace.app.base.BaseViewModel
+import com.blackace.data.ApkRepository
 import com.blackace.data.SignRepository
 import com.blackace.data.TaskRepository
 import com.blackace.data.config.AceConfig
 import com.blackace.data.entity.db.SignBean
 import com.blackace.data.entity.http.TaskBean
+import com.blackace.data.state.InstallState
 import com.blackace.data.state.PackageState
 import com.blackace.data.state.TaskListState
 import com.blackace.data.state.UserState
@@ -24,6 +26,8 @@ class MainViewModel : BaseViewModel() {
     val taskState = MutableLiveData<TaskListState>()
 
     val packageState = MutableLiveData<PackageState>()
+
+    val installState = MutableLiveData<InstallState>()
 
     var taskStart: String = ""
 
@@ -123,14 +127,34 @@ class MainViewModel : BaseViewModel() {
         launchIO {
             val path = TaskRepository.packageApk(signBean, taskBean, signModel)
             if (path.startsWith("/")) {
-                packageState.postValue(PackageState.Success(path))
+                packageState.postValue(PackageState.Success(taskBean.apkPkg, path, taskBean.apkName))
             } else {
                 packageState.postValue(PackageState.Fail(path))
             }
         }
     }
 
-    fun installApk(path: String) {
+    fun installApk(pkg: String, path: String, appName: String, checkSign: Boolean = true) {
+        launchIO {
+            installState.postValue(InstallState.Loading)
+            val isSameSign = ApkRepository.isApkSignSame(pkg, path)
+            if (checkSign && !isSameSign) {
+                installState.postValue(InstallState.NeedUnInstall(pkg, path, appName))
+                return@launchIO
+            }
+            ApkRepository.install(path)
+        }
+    }
 
+    fun uninstall(pkg: String) {
+        launchIO {
+            ApkRepository.uninstall(pkg)
+        }
+    }
+
+    fun launchApk(pkg: String) {
+        launchIO {
+            ApkRepository.launch(pkg)
+        }
     }
 }

@@ -100,4 +100,14 @@
     <string name="package_success">打包成功</string>
     <string name="package_success_hint">生成的APK储存在%s</string>
     <string name="not_support_apks">暂不支持Apks方式安装的软件，请安装APK版本的软件。</string>
+
+    <string name="install_success">安装成功</string>
+    <string name="install_fail">安装失败</string>
+    <string name="install_tip">安装提示</string>
+    <string name="install_success_hint">%s安装成功，是否立即启动？</string>
+    <string name="install_fail_hint">软件安装失败：%s,可前往文件管理器手动安装，APK所在路径：%s</string>
+    <string name="need_uninstall_hint">当前安装包跟本地已安装的软件签名不一致，继续安装可能会失败，是否前往卸载</string>
+    <string name="install_continue">继续安装</string>
+    <string name="uninstall">立即卸载</string>
+    <string name="launch">立即启动</string>
 </resources>

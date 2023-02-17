@@ -7,7 +7,6 @@ package com.blackace.data.entity.http
  */
 data class LoginBean(
     val account: String,
-    val id: String,
     val token: String,
     val email:String,
     val registerTime:Long

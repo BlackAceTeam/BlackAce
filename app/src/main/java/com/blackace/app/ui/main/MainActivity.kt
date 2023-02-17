@@ -161,7 +161,6 @@ class MainActivity : BaseActivity() {
                 }
 
                 is UpdateAppState.Install -> {
-                    log(mUpdateDialog == null)
                     mUpdateDialog?.clearPositiveListeners()
                     mUpdateDialog?.positiveButton(R.string.install) { _ ->
                         ApkRepository.install(it.path)

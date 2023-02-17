@@ -7,6 +7,7 @@ import com.blackace.data.config.AceConfig
 import com.blackace.data.entity.UserBean
 import com.blackace.data.entity.http.VersionBean
 import com.blackace.data.entity.http.BaseResult
+import com.blackace.data.entity.http.ConfigBean
 import com.blackace.data.entity.http.EmailBean
 import com.blackace.util.FileUtil
 import com.blackace.util.ext.getString
@@ -56,6 +57,25 @@ object AppRepository {
             return result.msg
         } catch (e: Exception) {
             return e.message
+        }
+    }
+
+    suspend fun freshUser(): UserBean? {
+        var userBean: UserBean? = null
+        runCatching {
+            val bean = ApiHolder.api.freshUser()
+            val result = bean.result
+            if (bean.isSuccess() && result != null) {
+                userBean = UserBean(result.account, result.email, result.token, result.registerTime)
+            }
+        }
+        AceConfig.saveUser(userBean)
+        return userBean
+    }
+
+    suspend fun loadSystemConfig() {
+        runCatching {
+            val bean = ApiHolder.api.systemConfig()
         }
     }
 

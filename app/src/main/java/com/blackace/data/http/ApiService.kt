@@ -1,6 +1,7 @@
 package com.blackace.data.http
 
 import com.blackace.BuildConfig
+import com.blackace.data.config.AceConfig
 import com.blackace.data.entity.http.VersionBean
 import com.blackace.data.entity.http.*
 import retrofit2.http.Field
@@ -29,9 +30,16 @@ interface ApiService {
         @Field("email") email: String
     ): BaseResult<RegisterBean>
 
+    @GET("/account/update/ANDROID/1")
+    suspend fun freshUser():BaseResult<LoginBean>
+
     @POST("/account/reset_password/ANDROID/1")
     @FormUrlEncoded
-    suspend fun changePassword(@Field("code") verify: String,@Field("password") newPass: String,@Field("account") account: String): BaseResult<Any>
+    suspend fun changePassword(
+        @Field("code") verify: String,
+        @Field("password") newPass: String,
+        @Field("account") account: String
+    ): BaseResult<Any>
 
     @POST("/account/reset_password_code/ANDROID/1")
     @FormUrlEncoded
@@ -56,5 +64,8 @@ interface ApiService {
     suspend fun taskQuery(@Query("taskNo") taskNo: String): BaseResult<BaseListBean<TaskBean>>
 
     @GET("/sys/version/ANDROID/1")
-    suspend fun checkUpdate(@Query("version_code") versionCode:Int = BuildConfig.VERSION_CODE):BaseResult<VersionBean>
+    suspend fun checkUpdate(@Query("version_code") versionCode: Int = BuildConfig.VERSION_CODE): BaseResult<VersionBean>
+
+    @GET("/sys/config/ANDROID/1")
+    suspend fun systemConfig(deviceCode: String = AceConfig.getDeviceCode(),@Query("version_code") versionCode: Int = BuildConfig.VERSION_CODE): BaseResult<ConfigBean>
 }

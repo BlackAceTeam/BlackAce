@@ -40,19 +40,39 @@ class MainViewModel : BaseViewModel() {
     var taskStart: String = ""
 
     init {
-        loadUserState()
+        loadUserState(true)
         checkUpdate(false)
+        loadSystemConfig()
     }
 
-    fun loadUserState() {
+    fun loadUserState(needRefresh: Boolean = false) {
         launchIO {
             val userBean = AceConfig.getUser()
             if (userBean == null) {
                 userState.postValue(UserState.NoLogin)
             } else {
                 userState.postValue(UserState.Login(userBean))
+                if (needRefresh) {
+                    freshUser()
+                }
             }
+        }
+    }
 
+    private fun freshUser() {
+        launchIO {
+            val userBean = AppRepository.freshUser()
+            if (userBean == null) {
+                userState.postValue(UserState.NoLogin)
+            } else {
+                userState.postValue(UserState.Login(userBean))
+            }
+        }
+    }
+
+    private fun loadSystemConfig(){
+        launchIO {
+            AppRepository.loadSystemConfig()
         }
     }
 

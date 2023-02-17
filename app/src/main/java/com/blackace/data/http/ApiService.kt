@@ -1,5 +1,7 @@
 package com.blackace.data.http
 
+import com.blackace.BuildConfig
+import com.blackace.data.entity.http.VersionBean
 import com.blackace.data.entity.http.*
 import retrofit2.http.Field
 import retrofit2.http.FieldMap
@@ -52,4 +54,7 @@ interface ApiService {
 
     @GET("/task/query/ANDROID/1")
     suspend fun taskQuery(@Query("taskNo") taskNo: String): BaseResult<BaseListBean<TaskBean>>
+
+    @GET("/sys/version/ANDROID/1")
+    suspend fun checkUpdate(@Query("version_code") versionCode:Int = BuildConfig.VERSION_CODE):BaseResult<VersionBean>
 }

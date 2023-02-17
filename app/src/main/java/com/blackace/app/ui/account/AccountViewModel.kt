@@ -2,7 +2,7 @@ package com.blackace.app.ui.account
 
 import androidx.lifecycle.MutableLiveData
 import com.blackace.app.base.BaseViewModel
-import com.blackace.data.UserRepository
+import com.blackace.data.AppRepository
 import com.blackace.data.config.AceConfig
 import com.blackace.data.state.ChangePassState
 import com.blackace.data.state.LoginState
@@ -29,7 +29,7 @@ class AccountViewModel : BaseViewModel() {
     fun login(username: String, password: String) {
         launchIO {
             loginState.postValue(LoginState.Loading)
-            val msg = UserRepository.login(username, password)
+            val msg = AppRepository.login(username, password)
             if (msg != null) {
                 loginState.postValue(LoginState.Fail(msg))
             } else {
@@ -41,7 +41,7 @@ class AccountViewModel : BaseViewModel() {
     fun register(username: String, email: String, password: String) {
         launchIO {
             registerState.postValue(RegisterState.Loading)
-            val msg = UserRepository.register(username, email, password)
+            val msg = AppRepository.register(username, email, password)
             if (msg != null) {
                 registerState.postValue(RegisterState.Fail(msg))
             } else {
@@ -58,7 +58,7 @@ class AccountViewModel : BaseViewModel() {
         }
         actionState.postValue(ChangePassState.Loading)
         launchIO {
-            val msg = UserRepository.changePassword(verify, newPass, realAccount)
+            val msg = AppRepository.changePassword(verify, newPass, realAccount)
             if (msg != null) {
                 actionState.postValue(ChangePassState.Fail(msg))
             } else {
@@ -80,7 +80,7 @@ class AccountViewModel : BaseViewModel() {
 
         emailState.postValue(SendEmailState.Loading)
         launchIO {
-            val result = UserRepository.sendEmailVerify(realAccount)
+            val result = AppRepository.sendEmailVerify(realAccount)
             if (result.isSuccess() && result.result != null) {
                 emailState.postValue(SendEmailState.Success(result.result!!.email))
             } else {

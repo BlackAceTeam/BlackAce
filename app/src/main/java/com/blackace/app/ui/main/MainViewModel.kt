@@ -3,16 +3,22 @@ package com.blackace.app.ui.main
 import androidx.lifecycle.MutableLiveData
 import com.blackace.app.base.BaseViewModel
 import com.blackace.data.ApkRepository
+import com.blackace.data.AppRepository
 import com.blackace.data.SignRepository
 import com.blackace.data.TaskRepository
 import com.blackace.data.config.AceConfig
+import com.blackace.data.entity.http.VersionBean
 import com.blackace.data.entity.db.SignBean
 import com.blackace.data.entity.http.TaskBean
-import com.blackace.data.state.InstallState
-import com.blackace.data.state.PackageState
-import com.blackace.data.state.TaskListState
-import com.blackace.data.state.UserState
+import com.blackace.data.state.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.withContext
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  *
@@ -29,10 +35,13 @@ class MainViewModel : BaseViewModel() {
 
     val installState = MutableLiveData<InstallState>()
 
+    val updateAppState = MutableLiveData<UpdateAppState>()
+
     var taskStart: String = ""
 
     init {
         loadUserState()
+        checkUpdate(false)
     }
 
     fun loadUserState() {
@@ -152,9 +161,53 @@ class MainViewModel : BaseViewModel() {
         }
     }
 
-    fun launchApk(pkg: String) {
-        launchIO {
-            ApkRepository.launch(pkg)
+    /**
+     * 检查更新
+     * @param notify Boolean 是否需要提醒
+     */
+    fun checkUpdate(notify: Boolean) {
+        launch {
+            val pair = withContext(Dispatchers.IO) {
+                AppRepository.checkUpdate(!notify)
+            }
+            val info = pair.first
+            if (info != null) {
+                updateAppState.postValue(UpdateAppState.Update(info))
+            } else if (notify) {
+                updateAppState.postValue(UpdateAppState.NoUpdate(pair.second))
+            }
+
         }
     }
+
+    private val isDownloadApk = AtomicBoolean(false)
+
+    /**
+     * 下载
+     * @param versionInfo VersionInfo
+     */
+    fun downloadApk(versionInfo: VersionBean) {
+        if (isDownloadApk.getAndSet(true)) {
+            return
+        }
+
+        launch {
+            AppRepository.downloadApk(versionInfo)
+                .flowOn(Dispatchers.IO)
+                .catch {
+                    updateAppState.postValue(UpdateAppState.DownloadFail(it.message.toString()))
+                    isDownloadApk.set(false)
+                }.onCompletion {
+                    isDownloadApk.set(false)
+                }.collectLatest {
+                    if (it.first == 100) {
+                        updateAppState.postValue(UpdateAppState.Install(it.second.toString()))
+                    } else {
+                        updateAppState.postValue(UpdateAppState.Downloading(it.first))
+                    }
+                }
+        }
+    }
+
+
 }

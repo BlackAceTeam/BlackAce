@@ -30,9 +30,9 @@ open class BaseBottomDialogFragment(layoutID: Int) : BottomSheetDialogFragment(l
         behavior.skipCollapsed = true
 
         val bottomSheet = dialog.findViewById<FrameLayout>(com.google.android.material.R.id.design_bottom_sheet)
-        bottomSheet?.backgroundTintMode = PorterDuff.Mode.CLEAR;
-        bottomSheet?.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT);
-        bottomSheet?.setBackgroundColor(Color.TRANSPARENT);
+        bottomSheet?.backgroundTintMode = PorterDuff.Mode.CLEAR
+        bottomSheet?.backgroundTintList = ColorStateList.valueOf(Color.TRANSPARENT)
+        bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
     }
 
 

@@ -1,5 +1,6 @@
 package com.blackace.app.ui.main
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -17,11 +18,15 @@ import com.blackace.app.ui.about.AboutActivity
 import com.blackace.app.ui.account.AccountActivity
 import com.blackace.app.ui.sign.SignManagerActivity
 import com.blackace.app.ui.web.WebActivity
+import com.blackace.data.ApkRepository
+import com.blackace.data.entity.http.VersionBean
 import com.blackace.data.state.InstallState
 import com.blackace.data.state.PackageState
+import com.blackace.data.state.UpdateAppState
 import com.blackace.data.state.UserState
 import com.blackace.databinding.ActivityMainBinding
 import com.blackace.databinding.ViewMainNavigationHeaderBinding
+import com.blackace.util.ToastUtil.showToast
 import com.blackace.util.ext.log
 import com.drake.brv.utils.*
 
@@ -36,6 +41,8 @@ class MainActivity : BaseActivity() {
     private val binding by viewBinding(ActivityMainBinding::bind)
 
     private val viewModel by viewModels<MainViewModel>()
+
+    private var mUpdateDialog: MaterialDialog? = null
 
     private var isLogin = false
 
@@ -134,6 +141,35 @@ class MainActivity : BaseActivity() {
             }
         }
 
+        viewModel.updateAppState.observe(this) {
+            when (it) {
+                is UpdateAppState.NoUpdate -> {
+                    showSnackBar(it.msg)
+                }
+
+                is UpdateAppState.Update -> {
+                    showUpdateDialog(it.versionInfo)
+                }
+
+                is UpdateAppState.Downloading -> {
+                    mUpdateDialog?.positiveButton(text = "${it.progress}%")
+                }
+
+                is UpdateAppState.DownloadFail -> {
+                    mUpdateDialog?.positiveButton(R.string.re_download)
+                    showToast(it.msg)
+                }
+
+                is UpdateAppState.Install -> {
+                    log(mUpdateDialog == null)
+                    mUpdateDialog?.clearPositiveListeners()
+                    mUpdateDialog?.positiveButton(R.string.install) { _ ->
+                        ApkRepository.install(it.path)
+                    }
+                    ApkRepository.install(it.path)
+                }
+            }
+        }
         viewModel.installState.observe(this) {
             when (it) {
                 is InstallState.Loading -> {
@@ -141,7 +177,7 @@ class MainActivity : BaseActivity() {
                 }
 
                 is InstallState.UninstallSuccess -> {
-                    viewModel.installApk(it.pkg,it.path,it.appName,false)
+                    viewModel.installApk(it.pkg, it.path, it.appName, false)
                 }
 
                 is InstallState.NeedUnInstall -> {
@@ -171,6 +207,35 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    @Suppress("DEPRECATION")
+    @SuppressLint("CheckResult")
+    private fun showUpdateDialog(info: VersionBean) {
+        mUpdateDialog = MaterialDialog(this).show {
+            title(text = getString(R.string.new_version, info.versionName))
+            message(text = info.content)
+            noAutoDismiss()
+            if (info.isForceUpdate()) {
+                //            if (true) {
+                cancelable(false)
+                cancelOnTouchOutside(false)
+            } else {
+                cancelable(true)
+                neutralButton(R.string.update_next) {
+                    dismiss()
+                }
+            }
+
+            positiveButton(R.string.update_now) {
+                viewModel.downloadApk(info)
+            }
+
+            negativeButton(R.string.browser_download) {
+//                startBrowser(info.downloadLink)
+            }
+        }
+
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -198,6 +263,7 @@ class MainActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(apkChangeReceiver)
+        mUpdateDialog?.dismiss()
     }
 
     private val apkChangeReceiver = object : BroadcastReceiver() {

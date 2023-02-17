@@ -42,6 +42,7 @@ object ApkRepository {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ContextHolder.get().startActivity(intent)
         } catch (e: Exception) {
+            e.printStackTrace()
             return e.message
         }
         return null
@@ -53,15 +54,6 @@ object ApkRepository {
             val uninstallIntent = Intent(Intent.ACTION_DELETE, packageURI)
             uninstallIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ContextHolder.get().startActivity(uninstallIntent)
-        }
-    }
-
-    fun launch(pkg: String) {
-        runCatching {
-            val manager: PackageManager = ContextHolder.get().packageManager
-            val intent = manager.getLaunchIntentForPackage(pkg)
-            intent!!.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            ContextHolder.get().startActivity(intent)
         }
     }
 

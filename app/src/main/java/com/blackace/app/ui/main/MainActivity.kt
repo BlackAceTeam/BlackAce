@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -12,13 +13,12 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.afollestad.materialdialogs.MaterialDialog
 import com.blackace.R
 import com.blackace.app.base.BaseActivity
-import com.blackace.app.contract.ProfileActivityContract
-import com.blackace.app.contract.ResultCodes
+import com.blackace.app.contract.*
 import com.blackace.app.ui.about.AboutActivity
-import com.blackace.app.ui.account.AccountActivity
 import com.blackace.app.ui.sign.SignManagerActivity
 import com.blackace.app.ui.web.WebActivity
 import com.blackace.data.ApkRepository
+import com.blackace.data.config.AceConfig
 import com.blackace.data.entity.http.VersionBean
 import com.blackace.data.state.InstallState
 import com.blackace.data.state.PackageState
@@ -27,7 +27,6 @@ import com.blackace.data.state.UserState
 import com.blackace.databinding.ActivityMainBinding
 import com.blackace.databinding.ViewMainNavigationHeaderBinding
 import com.blackace.util.ToastUtil.showToast
-import com.blackace.util.ext.log
 import com.drake.brv.utils.*
 
 
@@ -46,6 +45,8 @@ class MainActivity : BaseActivity() {
 
     private var isLogin = false
 
+    private val apkChangeReceiver by lazy {  ApkChangeReceiver(this, viewModel)}
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -53,7 +54,7 @@ class MainActivity : BaseActivity() {
         setupToolbar(R.string.app_name, null)
         initDrawer()
         initViewModel()
-        registerInstallReceiver()
+        apkChangeReceiver.registerInstallReceiver()
     }
 
     private fun initDrawer() {
@@ -70,14 +71,19 @@ class MainActivity : BaseActivity() {
             if (isLogin) {
                 userinfoContract.launch(Unit)
             } else {
-                AccountActivity.start(this)
+                showToast(R.string.login_pls)
+                loginContract.launch(Unit)
             }
         }
         binding.navigation.setNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.main_app_manager -> {
-
-                    WebActivity.start(this, "https://www.baidu.com")
+                    if (isLogin) {
+                        webContract.launch(WebViewParam(AceConfig.getAppManagerUrl(), false))
+                    } else {
+                        showToast(R.string.login_pls)
+                        loginContract.launch(Unit)
+                    }
                 }
                 R.id.main_sign_manager -> {
                     SignManagerActivity.start(this)
@@ -229,35 +235,49 @@ class MainActivity : BaseActivity() {
             }
 
             negativeButton(R.string.browser_download) {
-//                startBrowser(info.downloadLink)
+                startBrowser(info.url)
+                if (!info.isForceUpdate()) {
+                    dismiss()
+                }
             }
         }
 
     }
 
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == ResultCodes.LOGIN_SUCCESS) {
-            viewModel.loadUserState()
+    private fun startBrowser(url: String?) {
+        if (url.isNullOrEmpty()) {
+            showSnackBar("Url is Empty")
+            return
+        }
+        runCatching {
+            val uri = Uri.parse(url)
+            val intent = Intent()
+            intent.action = Intent.ACTION_VIEW
+            intent.data = uri
+            startActivity(intent)
+        }.onFailure {
+            showSnackBar(getString(R.string.open_fail))
         }
     }
 
+    //用户信息界面
     private val userinfoContract = registerForActivityResult(ProfileActivityContract()) {
         if (it == ProfileActivityContract.UPDATE_CONFIG) {
             viewModel.loadUserState()
-            AccountActivity.start(this)
+            loginContract.launch(Unit)
         }
     }
 
-    private fun registerInstallReceiver() {
-        val filter = IntentFilter()
-        filter.addAction("android.intent.action.PACKAGE_ADDED")
-        filter.addAction("android.intent.action.PACKAGE_REPLACED")
-        filter.addAction("android.intent.action.PACKAGE_REMOVED")
-        filter.addDataScheme("package")
-        registerReceiver(apkChangeReceiver, filter)
+    //登录注册界面
+    private val loginContract = registerForActivityResult(LoginContract()) {
+        if (it) {
+            viewModel.loadUserState()
+        }
     }
+
+    //web界面
+    private val webContract = registerForActivityResult(OpenWebContract()) {}
 
     override fun onDestroy() {
         super.onDestroy()
@@ -265,29 +285,4 @@ class MainActivity : BaseActivity() {
         mUpdateDialog?.dismiss()
     }
 
-    private val apkChangeReceiver = object : BroadcastReceiver() {
-
-        private var apkPkg: String = ""
-        private var apkPath: String = ""
-        private var apkName: String = ""
-        override fun onReceive(context: Context?, intent: Intent?) {
-            val pkg = intent?.dataString ?: return
-            if (!pkg.endsWith(apkPkg)) {
-                return
-            }
-            if ("android.intent.action.PACKAGE_ADDED" == intent.action || "android.intent.action.PACKAGE_REPLACED" == intent.action) {
-                dismissLoadingDialog()
-            }
-
-            if (intent.action == "android.intent.action.PACKAGE_REMOVED") {
-                viewModel.installState.postValue(InstallState.UninstallSuccess(apkPkg, apkPath, apkName))
-            }
-        }
-
-        fun setApkInfo(pkg: String, path: String, name: String) {
-            this.apkPkg = pkg
-            this.apkPath = path
-            this.apkName = name
-        }
-    }
 }

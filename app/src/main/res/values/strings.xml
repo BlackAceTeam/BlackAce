@@ -24,6 +24,8 @@
     <string name="account_setting">账号设置</string>
     <string name="other">其它</string>
 
+    <string name="open_fail">打开失败</string>
+
     <string name="login_hint">欢迎回来\n登录后即可使用软件全部功能</string>
 
     <string name="username">用户名</string>

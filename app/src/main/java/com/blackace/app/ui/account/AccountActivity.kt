@@ -54,11 +54,4 @@ class AccountActivity : BaseActivity() {
         finish()
     }
 
-
-    companion object {
-        fun start(activity: BaseActivity) {
-            val intent = Intent(activity,AccountActivity::class.java)
-            activity.startActivityForResult(intent,101)
-        }
-    }
 }

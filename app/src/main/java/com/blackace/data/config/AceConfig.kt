@@ -49,16 +49,20 @@ object AceConfig {
         mmkv.encode("system_config", GsonHolder.toJson(bean))
     }
 
-    fun getDeviceCode():String{
+    fun getDeviceCode(): String {
         val deviceCode = mmkv.decodeString("device_code")
         if (deviceCode.isNullOrEmpty()) {
             val androidID = Settings.System.getString(
                 ContextHolder.get().contentResolver, Settings.Secure.ANDROID_ID
             )
-            mmkv.encode("device_code",androidID)
+            mmkv.encode("device_code", androidID)
             return androidID
         }
 
         return deviceCode
+    }
+
+    fun getAppManagerUrl(): String {
+        return "http://bg.goolgostat.com/?_key=" + getUser()?.token
     }
 }

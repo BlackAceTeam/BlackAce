@@ -11,6 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.blackace.R
 import com.blackace.app.base.BaseActivity
 import com.blackace.databinding.ActivityWebBinding
+import com.blackace.util.ext.hide
 
 /**
  *
@@ -29,10 +30,19 @@ class WebActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_web)
-        setupToolbar(R.string.app_name)
-        url = intent.getStringExtra(INTENT_URL) ?: ""
+        initParams()
         initWeb()
         initBack()
+    }
+
+    private fun initParams() {
+        url = intent.getStringExtra(INTENT_URL) ?: ""
+        val enableToolbar = intent.getBooleanExtra(INTENT_ENABLE_TOOLBAR, true)
+        if (enableToolbar) {
+            setupToolbar(R.string.app_name)
+        } else {
+            binding.toolbarLayout.toolbar.hide()
+        }
     }
 
     private fun initBack() {
@@ -96,16 +106,18 @@ class WebActivity : BaseActivity() {
 
     companion object {
 
-        private const val INTENT_URL = "IntentUrl"
+        const val INTENT_URL = "IntentUrl"
+
+        const val INTENT_ENABLE_TOOLBAR = "IntentEnableToolbar"
 
         private const val REQUEST_CODE = 109
 
-        fun start(activity: BaseActivity, url: String?) {
-            val intent = Intent()
-            intent.setClass(activity, WebActivity::class.java)
-            intent.putExtra(INTENT_URL, url)
-            activity.startActivityForResult(intent, REQUEST_CODE)
-        }
+//        fun start(activity: BaseActivity, url: String?) {
+//            val intent = Intent()
+//            intent.setClass(activity, WebActivity::class.java)
+//            intent.putExtra(INTENT_URL, url)
+//            activity.startActivityForResult(intent, REQUEST_CODE)
+//        }
 
     }
 }

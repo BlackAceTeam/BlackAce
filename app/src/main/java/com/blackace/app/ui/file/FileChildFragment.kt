@@ -13,6 +13,7 @@ import com.blackace.data.entity.FileBean
 import com.blackace.data.state.LocalFileState
 import com.blackace.databinding.FragmentChildFileBinding
 import com.blackace.databinding.ItemLocalFileBinding
+import com.blackace.util.ext.baseActivity
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.drake.brv.utils.setup
@@ -28,21 +29,17 @@ class FileChildFragment : BaseFragment(R.layout.fragment_child_file) {
 
     private val fileViewModel by viewModels<FileViewModel>()
 
-//    private val viewModel by activityViewModels<LocalViewModel>()
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         initViewModel()
         initData()
+        baseActivity().addBackCallback(lifecycle, callback = this::onBack)
     }
 
     private fun initData() {
         val path = requireArguments().getString(FLAG_PATH) ?: "/"
         fileViewModel.loadFileList(path)
-
-        mBackPressedCallback.isEnabled = true
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -107,13 +104,19 @@ class FileChildFragment : BaseFragment(R.layout.fragment_child_file) {
         }
     }
 
-    override fun onBack() {
+    private fun onBack(): Boolean {
+        if (!isResumed) {
+            return false
+        }
+
         if (parentFragmentManager.backStackEntryCount == 1) {
             requireActivity().finish()
         } else {
             parentFragmentManager.popBackStack()
         }
+        return true
     }
+
 
     companion object {
 

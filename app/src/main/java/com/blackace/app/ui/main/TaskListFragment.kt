@@ -36,6 +36,7 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
         initViewModel()
         initRecyclerView()
         initFab()
+        baseActivity().addBackCallback(lifecycle, callback = this::onBack)
     }
 
     private fun initViewModel() {
@@ -147,14 +148,11 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
                 if (!toggleMode) {
                     toggle()
                     setChecked(layoutPosition, true)
-                    mBackPressedCallback.isEnabled = true
                     binding.fab.setImageResource(R.drawable.ic_delete)
                 }
             }
 
             onToggle { position, _, _ ->
-//                val model = getModel<TaskBean>(position)
-//                model.isCheck = toggleMode
                 notifyItemChanged(position)
             }
 
@@ -231,11 +229,10 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
         when (model.status) {
             TaskBean.STATE_LOADING, TaskBean.STATE_WAIT -> {
                 showSnackBar(R.string.task_processing)
-//                viewModel.loadSignList(model)
             }
 
             TaskBean.STATE_FAIL -> {
-                showSnackBar(R.string.task_processing)
+                showSnackBar(R.string.task_process_fail)
             }
 
             TaskBean.STATE_SUCCESS -> {
@@ -244,11 +241,10 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
         }
     }
 
-    private fun exitToggleMode(){
+    private fun exitToggleMode() {
         mAdapter.toggle(false)
         mAdapter.checkedAll(false)
         binding.fab.setImageResource(R.drawable.ic_add)
-        mBackPressedCallback.isEnabled = false
     }
 
     private val createTaskContract = registerForActivityResult(TaskCreateContract()) {
@@ -257,9 +253,11 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
         }
     }
 
-    override fun onBack() {
+    private fun onBack(): Boolean {
         if (mAdapter.toggleMode) {
-          exitToggleMode()
+            exitToggleMode()
+            return true
         }
+        return false
     }
 }

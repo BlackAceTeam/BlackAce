@@ -1,6 +1,5 @@
 package com.blackace.app.base
 
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.blackace.util.ext.baseActivity
 
@@ -19,18 +18,4 @@ open class BaseFragment(private val layoutID: Int) : Fragment(layoutID) {
         baseActivity().showSnackBar(msg)
     }
 
-
-    protected val mBackPressedCallback by lazy {
-        val mCallback = object : OnBackPressedCallback(false) {
-            override fun handleOnBackPressed() {
-                onBack()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, mCallback)
-        mCallback
-    }
-
-    open fun onBack() {
-
-    }
 }

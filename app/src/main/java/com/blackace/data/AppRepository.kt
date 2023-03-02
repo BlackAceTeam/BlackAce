@@ -112,7 +112,6 @@ object AppRepository {
 
         try {
             val info = ApiHolder.api.checkUpdate()
-            log(info)
 //            val result = VersionInfo("2.0.0", 11, "https://dl.coolapk.com/down?pn=com.coolapk.market&id=NDU5OQ&h=46bb9d98&from=from-web", "1.新增xxx", 2)
             val result = info.result
             //请求是否成功

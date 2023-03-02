@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -45,7 +46,7 @@ class MainActivity : BaseActivity() {
 
     private var isLogin = false
 
-    private val apkChangeReceiver by lazy {  ApkChangeReceiver(this, viewModel)}
+    private val apkChangeReceiver by lazy { ApkChangeReceiver(this, viewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,7 @@ class MainActivity : BaseActivity() {
         setupToolbar(R.string.app_name, null)
         initDrawer()
         initViewModel()
+        registerBackCallback()
         apkChangeReceiver.registerInstallReceiver()
     }
 
@@ -71,7 +73,6 @@ class MainActivity : BaseActivity() {
             if (isLogin) {
                 userinfoContract.launch(Unit)
             } else {
-                showToast(R.string.login_pls)
                 loginContract.launch(Unit)
             }
         }
@@ -261,6 +262,17 @@ class MainActivity : BaseActivity() {
         }
     }
 
+    private fun registerBackCallback() {
+        addBackCallback(lifecycle) {
+            if (binding.root.isOpen) {
+                binding.root.close()
+                return@addBackCallback true
+            } else {
+                return@addBackCallback false
+            }
+        }
+    }
+
     //用户信息界面
     private val userinfoContract = registerForActivityResult(ProfileActivityContract()) {
         if (it == ProfileActivityContract.UPDATE_CONFIG) {
@@ -278,6 +290,7 @@ class MainActivity : BaseActivity() {
 
     //web界面
     private val webContract = registerForActivityResult(OpenWebContract()) {}
+
 
     override fun onDestroy() {
         super.onDestroy()

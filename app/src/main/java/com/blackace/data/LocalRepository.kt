@@ -102,15 +102,15 @@ object LocalRepository {
 
     fun loadApkInfo(apkPath: String): AppBean? {
         val packageInfo = ContextHolder.get().packageManager.getPackageArchiveInfo(apkPath, 0) ?: return null
-        return loadApkInfo(packageInfo)
+        return loadApkInfo(packageInfo, apkPath)
     }
 
-    private fun loadApkInfo(packageInfo: PackageInfo): AppBean {
+    private fun loadApkInfo(packageInfo: PackageInfo, apkPath: String? = null): AppBean {
         val packageManager = ContextHolder.get().packageManager
         val applicationInfo = packageInfo.applicationInfo
         val name = applicationInfo.loadLabel(packageManager).toString()
         val icon = applicationInfo.loadIcon(packageManager)
-        val apkFile = File(applicationInfo.sourceDir)
+        val apkFile = File(apkPath ?: applicationInfo.sourceDir)
         val versionCode = packageInfo.realVersion().toString()
 
         val uri = Uri.fromFile(apkFile)

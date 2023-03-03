@@ -9,11 +9,12 @@
         android:id="@+id/toolbarLayout"
         layout="@layout/view_toolbar" />
 
-    <View
+    <androidx.cardview.widget.CardView
         android:id="@+id/vLogoBack"
         android:layout_width="match_parent"
         android:layout_marginTop="12dp"
-        android:background="@color/white"
+        android:layout_marginHorizontal="12dp"
+        app:cardElevation="2dp"
         android:layout_height="166dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

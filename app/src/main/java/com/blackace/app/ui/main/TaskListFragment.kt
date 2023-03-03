@@ -3,6 +3,7 @@ package com.blackace.app.ui.main
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import by.kirich1409.viewbindingdelegate.viewBinding
 import coil.load
 import com.afollestad.materialdialogs.MaterialDialog
@@ -41,7 +42,9 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
 
     private fun initViewModel() {
         viewModel.userState.observe(viewLifecycleOwner) {
-            binding.pageRefresh.refreshing()
+            lifecycleScope.launchWhenResumed {
+                binding.pageRefresh.refreshing()
+            }
         }
 
         viewModel.taskState.observe(viewLifecycleOwner) {
@@ -260,4 +263,5 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
         }
         return false
     }
+
 }

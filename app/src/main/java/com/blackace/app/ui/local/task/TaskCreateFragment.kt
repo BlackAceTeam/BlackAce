@@ -1,30 +1,24 @@
 package com.blackace.app.ui.local.task
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.ViewGroup.LayoutParams
-import android.widget.FrameLayout
 import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.blackace.R
 import com.blackace.app.base.BaseBottomDialogFragment
 import com.blackace.app.ui.local.LocalViewModel
+import com.blackace.data.config.AceConfig
 import com.blackace.data.entity.AppBean
 import com.blackace.data.entity.http.FeatureBean
-import com.blackace.data.entity.http.TaskBean
 import com.blackace.data.state.FeatureState
 import com.blackace.databinding.FragmentTaskCreateBinding
 import com.blackace.databinding.ItemDialogFeatureBinding
+import com.blackace.util.ToastUtil
 import com.blackace.util.ext.emptyWatcherWithHint
 import com.drake.brv.BindingAdapter
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.drake.brv.utils.setup
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 /**
  *
@@ -57,6 +51,12 @@ class TaskCreateFragment : BaseBottomDialogFragment(R.layout.fragment_task_creat
                 return@setOnClickListener
             }
             val tmpAppBean = appBean ?: return@setOnClickListener
+
+            if (AceConfig.getUser() == null) {
+                ToastUtil.showToast(R.string.login_pls)
+                dismiss()
+                return@setOnClickListener
+            }
             tmpAppBean.version = binding.versionNameEdit.text.toString()
             tmpAppBean.versionCode = binding.versionCodeEdit.text.toString()
             tmpAppBean.name = binding.nameEdit.text.toString()

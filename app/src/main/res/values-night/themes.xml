@@ -7,6 +7,7 @@
         <item name="colorSecondary">@color/colorPrimaryLight</item>
         <item name="colorOnSecondary">@color/colorBackground</item>
         <item name="background">@color/colorBackground</item>
+        <item name="android:windowBackground">@color/colorBackground</item>
         <item name="colorBackgroundFloating">@color/colorBackground</item>
         <item name="popupMenuBackground">@color/colorBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -14,7 +15,16 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColor">@color/textColorPrimary</item>
-        <item name="android:editTextColor">@color/textEditColor</item>
+        <item name="android:editTextColor">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:textColorHint">@color/textColorHint</item>
+
+
+        <item name="md_color_title">@color/textColorPrimary</item>
+        <item name="md_color_content">@color/textColorSecondary</item>
+        <item name="md_color_button_text">@color/textColorPrimary</item>
+
     </style>
+
+
 </resources>

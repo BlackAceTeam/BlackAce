@@ -25,3 +25,6 @@
 -keepclassmembers class com.dd.StrokeGradientDrawable {
     public void setStrokeColor(int);
 }
+#加载按钮
+
+-keep class org.spongycastle.** { *; }

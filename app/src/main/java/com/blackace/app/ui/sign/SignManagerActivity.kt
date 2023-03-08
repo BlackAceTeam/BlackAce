@@ -87,9 +87,17 @@ class SignManagerActivity : BaseActivity(), FileDecoder {
                     showSnackBar(it.msg)
                 }
 
-                else -> {
+                is SignManagerState.CreateSuccess -> {
                     dismissLoadingDialog()
+                    showSnackBar(R.string.add_success)
                 }
+
+                is SignManagerState.Delete -> {
+
+                    dismissLoadingDialog()
+                    showSnackBar(R.string.delete_success)
+                }
+
             }
         }
     }

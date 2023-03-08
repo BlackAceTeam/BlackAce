@@ -74,6 +74,8 @@
     <string name="sign_alias_pass_error">签名文件无法打开，请检查别名密码是否正确</string>
     <string name="add">添加</string>
     <string name="add_sign">添加签名</string>
+    <string name="add_success">添加成功</string>
+    <string name="delete_success">删除成功</string>
     <string name="local_sign">已保存签名</string>
     <string name="alias">别名</string>
     <string name="alias_pass">别名密码</string>

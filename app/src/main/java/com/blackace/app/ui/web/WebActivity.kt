@@ -110,14 +110,5 @@ class WebActivity : BaseActivity() {
 
         const val INTENT_ENABLE_TOOLBAR = "IntentEnableToolbar"
 
-        private const val REQUEST_CODE = 109
-
-//        fun start(activity: BaseActivity, url: String?) {
-//            val intent = Intent()
-//            intent.setClass(activity, WebActivity::class.java)
-//            intent.putExtra(INTENT_URL, url)
-//            activity.startActivityForResult(intent, REQUEST_CODE)
-//        }
-
     }
 }

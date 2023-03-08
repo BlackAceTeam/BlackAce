@@ -63,6 +63,6 @@ object AceConfig {
     }
 
     fun getAppManagerUrl(): String {
-        return "http://bg.goolgostat.com/?_key=" + getUser()?.token
+        return "http://bg.goolgostat.com/?_key=${getUser()?.token}&ts=${System.currentTimeMillis()}"
     }
 }

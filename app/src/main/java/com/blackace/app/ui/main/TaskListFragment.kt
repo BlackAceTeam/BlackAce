@@ -264,4 +264,11 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
         return false
     }
 
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.installState.value = null
+        viewModel.taskState.value = null
+        viewModel.packageState.value = null
+    }
 }

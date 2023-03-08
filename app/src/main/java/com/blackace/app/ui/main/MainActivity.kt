@@ -291,7 +291,6 @@ class MainActivity : BaseActivity() {
     //web界面
     private val webContract = registerForActivityResult(OpenWebContract()) {}
 
-
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(apkChangeReceiver)

@@ -44,7 +44,7 @@ object KeyStoreHelper {
 
         //加载PCKS12
         try {
-            keyStore = KeyStore.getInstance("PKCS12")
+            keyStore = KeyStore.getInstance("PKCS12", BouncyCastleProvider())
             loadPass(keyStore, jksFile, jksPass)
             return keyStore
         } catch (ignore: Exception) {

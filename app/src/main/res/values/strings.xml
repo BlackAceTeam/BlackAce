@@ -119,6 +119,8 @@
     <string name="re_download">重新下载</string>
     <string name="apk_invalid">APK损坏，请重新下载</string>
 
+    <string name="export_success">导出成功，文件保存在:%s</string>
+
     <string name="install_success">安装成功</string>
     <string name="install_fail">安装失败</string>
     <string name="install_tip">安装提示</string>
@@ -128,4 +130,8 @@
     <string name="install_continue">继续安装</string>
     <string name="uninstall">立即卸载</string>
     <string name="launch">立即启动</string>
+
+    <string name="hour">小时</string>
+    <string name="unuse">未使用</string>
+    <string name="used">已使用</string>
 </resources>

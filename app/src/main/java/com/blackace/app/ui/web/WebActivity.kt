@@ -12,6 +12,7 @@ import com.blackace.R
 import com.blackace.app.base.BaseActivity
 import com.blackace.databinding.ActivityWebBinding
 import com.blackace.util.ext.hide
+import com.blackace.util.ext.log
 
 /**
  *
@@ -62,6 +63,7 @@ class WebActivity : BaseActivity() {
         webSettings.javaScriptEnabled = true
         binding.webView.webViewClient = mWebViewClient
         binding.webView.webChromeClient = mChromeClient
+        binding.webView.addJavascriptInterface(WebBridge(this),"AceBridge")
         binding.webView.loadUrl(url)
     }
 
@@ -88,12 +90,11 @@ class WebActivity : BaseActivity() {
 
     private val mWebViewClient = object : WebViewClient() {
 
-        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-            if (url != null) {
-                binding.webView.loadUrl(url)
-            }
-            return true
+        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+            log(request?.url)
+            return false
         }
+
     }
 
 

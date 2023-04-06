@@ -13,6 +13,10 @@
         android:title="@string/sign_manager" />
 
     <item
+        android:icon="@drawable/ic_chat"
+        android:id="@+id/main_chat"
+        android:title="@string/telegram" />
+    <item
         android:icon="@drawable/ic_info"
         android:id="@+id/main_about_app"
         android:title="@string/about_app" />

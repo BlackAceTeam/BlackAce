@@ -58,23 +58,6 @@ fun File.md5(): String {
 }
 
 
-fun byteToString(byteArray: ByteArray): String {
-
-    val sb = StringBuffer()
-    for (b in byteArray) {
-        //获取低八位有效值
-        val i = b.toInt() and 0xff
-        //将整数转化为16进制
-        var hexString = Integer.toHexString(i)
-        if (hexString.length < 2) {
-            //如果是一位的话，补0
-            hexString = "0$hexString"
-        }
-        sb.append(hexString)
-    }
-    return sb.toString()
-}
-
 
 fun formatSize(size: Double, end: String): String {
     return String.format("%.02f%s", size, end)

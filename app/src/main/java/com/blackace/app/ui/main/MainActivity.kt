@@ -92,6 +92,9 @@ class MainActivity : BaseActivity() {
                 R.id.main_about_app -> {
                     AboutActivity.start(this)
                 }
+                R.id.main_chat -> {
+                    startBrowser("https://t.me/blackacepro")
+                }
             }
             true
         }

@@ -1,7 +1,6 @@
-package com.blackace.data
+package com.blackace.data.http
 
 import com.blackace.BuildConfig
-import com.blackace.data.http.TokenInterceptor
 import com.blackace.util.holder.GsonHolder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,7 +13,7 @@ import java.util.concurrent.TimeUnit
  * @author: magicHeimdall
  * @create: 18/12/2022 10:52 PM
  */
-object RetrofitManager {
+object HttpManager {
 
     private val BASE_URL = "http://goolgostat.com/"
 
@@ -25,6 +24,7 @@ object RetrofitManager {
                     this.addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 }
             }
+            .addInterceptor(BestHostInterceptor())
             .addInterceptor(TokenInterceptor())
             .connectTimeout(1, TimeUnit.MINUTES)
             .readTimeout(2,TimeUnit.MINUTES)

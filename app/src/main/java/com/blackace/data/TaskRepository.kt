@@ -12,6 +12,7 @@ import com.blackace.data.entity.http.BaseListBean
 import com.blackace.data.entity.http.BaseResult
 import com.blackace.data.entity.http.MoreBean
 import com.blackace.data.entity.http.TaskBean
+import com.blackace.data.http.HttpManager
 import com.blackace.util.ext.getString
 import com.blackace.util.holder.ApiHolder
 import com.blackace.util.holder.ContextHolder
@@ -94,7 +95,7 @@ object TaskRepository {
         return try {
             val request = Request.Builder().url(taskBean.downloadUrl).get().build()
 //            val request = Request.Builder().url("").get().build()
-            val body = RetrofitManager.okHttp.newCall(request).execute().body!!
+            val body = HttpManager.okHttp.newCall(request).execute().body!!
             FileOutputStream(tmpApk).use { output ->
                 body.byteStream().use { input ->
                     input.copyTo(output)

@@ -65,4 +65,16 @@ object AceConfig {
     fun getAppManagerUrl(): String {
         return "http://bg.goolgostat.com/?_key=${getUser()?.token}&ts=${System.currentTimeMillis()}"
     }
+
+
+    fun saveCustomHost(pair: Pair<String,Long>) {
+        mmkv.encode("custom_host", pair.first)
+        mmkv.encode("custom_host_ext_time", pair.second)
+    }
+
+    fun getCustomHost(): Pair<String, Long> {
+        val host = mmkv.decodeString("custom_host") ?: ""
+        val extTime = mmkv.decodeLong("custom_host_ext_time", 0L)
+        return host to extTime
+    }
 }

@@ -1,6 +1,6 @@
 package com.blackace.util.holder
 
-import com.blackace.data.RetrofitManager
+import com.blackace.data.http.HttpManager
 import com.blackace.data.http.ApiService
 
 /**
@@ -11,6 +11,6 @@ import com.blackace.data.http.ApiService
 object ApiHolder {
 
     val api by lazy {
-        RetrofitManager.create(ApiService::class.java)
+        HttpManager.create(ApiService::class.java)
     }
 }

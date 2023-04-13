@@ -77,7 +77,7 @@ object HostManager {
             }
         }
         log("使用默认host")
-        return "http://goolgostat.com"
+        return "https://goolgostat.com"
     }
 
 

@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
  */
 object HttpManager {
 
-    private val BASE_URL = "http://goolgostat.com/"
+    private val BASE_URL = "https://goolgostat.com/"
 
     val okHttp by lazy {
         OkHttpClient.Builder()

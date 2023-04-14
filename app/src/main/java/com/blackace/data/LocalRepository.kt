@@ -108,6 +108,10 @@ object LocalRepository {
     private fun loadApkInfo(packageInfo: PackageInfo, apkPath: String? = null): AppBean {
         val packageManager = ContextHolder.get().packageManager
         val applicationInfo = packageInfo.applicationInfo
+        if (!apkPath.isNullOrEmpty()){
+            applicationInfo.sourceDir = apkPath
+            applicationInfo.publicSourceDir = apkPath
+        }
         val name = applicationInfo.loadLabel(packageManager).toString()
         val icon = applicationInfo.loadIcon(packageManager)
         val apkFile = File(apkPath ?: applicationInfo.sourceDir)

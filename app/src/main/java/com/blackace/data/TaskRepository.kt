@@ -95,7 +95,7 @@ object TaskRepository {
         return try {
             val request = Request.Builder().url(taskBean.downloadUrl).get().build()
 //            val request = Request.Builder().url("").get().build()
-            val body = HttpManager.okHttp.newCall(request).execute().body!!
+            val body = HttpManager.pureOkhttp.newCall(request).execute().body!!
             FileOutputStream(tmpApk).use { output ->
                 body.byteStream().use { input ->
                     input.copyTo(output)

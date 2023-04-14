@@ -27,8 +27,16 @@ object HttpManager {
             .addInterceptor(BestHostInterceptor())
             .addInterceptor(TokenInterceptor())
             .connectTimeout(1, TimeUnit.MINUTES)
-            .readTimeout(2,TimeUnit.MINUTES)
-            .writeTimeout(2,TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
+            .writeTimeout(2, TimeUnit.MINUTES)
+            .build()
+    }
+
+    val pureOkhttp by lazy {
+        OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.MINUTES)
+            .readTimeout(2, TimeUnit.MINUTES)
+            .writeTimeout(2, TimeUnit.MINUTES)
             .build()
     }
 

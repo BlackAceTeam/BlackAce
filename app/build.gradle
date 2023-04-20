@@ -86,7 +86,7 @@ dependencies {
     implementation "com.afollestad.material-dialogs:input:$materialDialogVersion"
 
     implementation "com.github.liangjingkanji:BRV:$brvVersion"
-    implementation "com.github.dmytrodanylyk:circular-progress-button:1.2"
+    implementation 'com.github.razir.progressbutton:progressbutton:2.1.0'
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitConverterVersion"

@@ -17,8 +17,6 @@ data class TaskBean(
     val versionName: String,
     val clientTaskNo: String,
     val createTime: Long,
-    @SerializedName("descr")
-    val desc: String,
     val downloadUrl: String,
     val feature: String,
     val hide: Int,

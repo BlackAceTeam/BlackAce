@@ -18,4 +18,8 @@
 
     <color name="divider">#1F000000</color>
 
+    <color name="progress_btn_blue">#ff0099cc</color>
+    <color name="progress_btn_red">#ffff4444</color>
+    <color name="progress_btn_green">#ff99cc00</color>
+
 </resources>

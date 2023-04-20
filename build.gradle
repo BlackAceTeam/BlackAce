@@ -17,10 +17,8 @@ ext {
     coroutinesVersion = "1.5.2"
     roomVersion = "2.4.3"
     materialDialogVersion = "3.3.0"
-    brvVersion = "1.3.87"
+    brvVersion = "1.4.1"
 
-    RxJavaVersion = '1.3.4'
-    RxAndroidVersion = '1.2.1'
     retrofitVersion = '2.9.0'
     retrofitAdapterVersion = '2.9.0'
     retrofitConverterVersion = '2.9.0'

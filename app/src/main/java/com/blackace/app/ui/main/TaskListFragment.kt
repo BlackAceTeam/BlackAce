@@ -1,5 +1,6 @@
 package com.blackace.app.ui.main
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
@@ -18,6 +19,9 @@ import com.blackace.util.ext.*
 import com.drake.brv.BindingAdapter
 import com.drake.brv.listener.ItemDifferCallback
 import com.drake.brv.utils.*
+import com.github.razir.progressbutton.bindProgressButton
+import com.github.razir.progressbutton.hideProgress
+import com.github.razir.progressbutton.showProgress
 
 /**
  *
@@ -120,6 +124,11 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
     private fun initRecyclerView() {
         mAdapter = binding.recyclerView.linear().setup {
             addType<TaskBean>(R.layout.item_main_task)
+            onCreate {
+                val binding = getBinding<ItemMainTaskBinding>()
+                bindProgressButton(binding.progressButton)
+            }
+
             onBind {
                 val binding = getBinding<ItemMainTaskBinding>()
                 val model = getModel<TaskBean>()
@@ -127,7 +136,6 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
                 binding.tvTitle.text = model.apkName
                 binding.tvPkg.text = model.apkPkg
                 binding.tvInfo.text = model.versionName
-
                 if (toggleMode) {
                     bindToggleRecyclerViewItem(binding, model)
                 } else {
@@ -180,24 +188,28 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
 
     private fun bindRecyclerViewItem(binding: ItemMainTaskBinding, model: TaskBean) {
         binding.checkbox.hide()
-        binding.progressButton.show()
         if (model.status == TaskBean.STATE_APK_DELETE) {
             binding.progressButton.hide()
         } else {
             binding.progressButton.show()
-            binding.progressButton.isIndeterminateProgressMode = true
             when (model.status) {
                 TaskBean.STATE_SUCCESS -> {
-                    binding.progressButton.progress = 100
+                    binding.progressButton.setBackgroundColor(getColor(R.color.progress_btn_green))
+                    binding.progressButton.hideProgress(R.string.task_success)
                 }
                 TaskBean.STATE_WAIT -> {
-                    binding.progressButton.progress = 0
+                    binding.progressButton.setBackgroundColor(getColor( R.color.progress_btn_blue))
+                    binding.progressButton.hideProgress(R.string.task_wait)
                 }
                 TaskBean.STATE_FAIL -> {
-                    binding.progressButton.progress = -1
+                    binding.progressButton.setBackgroundColor(getColor( R.color.progress_btn_red))
+                    binding.progressButton.hideProgress(R.string.task_error)
                 }
                 TaskBean.STATE_LOADING -> {
-                    binding.progressButton.progress = 50
+                    binding.progressButton.setBackgroundColor(getColor( R.color.progress_btn_blue))
+                    binding.progressButton.showProgress {
+                        progressColor = Color.WHITE
+                    }
                 }
             }
         }
@@ -265,10 +277,4 @@ class TaskListFragment : BaseFragment(R.layout.fragment_task_list) {
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.installState.value = null
-        viewModel.taskState.value = null
-        viewModel.packageState.value = null
-    }
 }

@@ -10,7 +10,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.blackace.R
 import com.blackace.app.base.BaseFragment
 import com.blackace.data.entity.FileBean
-import com.blackace.data.state.LocalFileState
+import com.blackace.data.state.SimpleActionState
 import com.blackace.databinding.FragmentChildFileBinding
 import com.blackace.databinding.ItemLocalFileBinding
 import com.blackace.util.ext.baseActivity
@@ -73,12 +73,16 @@ class FileChildFragment : BaseFragment(R.layout.fragment_child_file) {
     private fun initViewModel() {
         fileViewModel.fileListLiveData.observe(viewLifecycleOwner) {
             when (it) {
-                is LocalFileState.Loading -> {
+                is SimpleActionState.Loading -> {
                     binding.stateView.showLoading()
                 }
 
-                is LocalFileState.Success -> {
-                    binding.recyclerView.models = it.list
+                is SimpleActionState.Fail->{
+                    //nothing to do
+                }
+
+                is SimpleActionState.Success -> {
+                    binding.recyclerView.models = it.bean
                     binding.stateView.showContent()
                 }
             }

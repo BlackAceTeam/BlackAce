@@ -5,9 +5,8 @@ import com.blackace.app.base.BaseViewModel
 import com.blackace.data.LocalRepository
 import com.blackace.data.TaskRepository
 import com.blackace.data.entity.AppBean
-import com.blackace.data.state.CreateTaskState
-import com.blackace.data.state.FeatureState
-import com.blackace.data.state.LocalAppState
+import com.blackace.data.entity.http.FeatureBean
+import com.blackace.data.state.SimpleActionState
 
 /**
  *
@@ -16,56 +15,56 @@ import com.blackace.data.state.LocalAppState
  */
 class LocalViewModel : BaseViewModel() {
 
-    val appListLiveData = MutableLiveData<LocalAppState>(LocalAppState.Loading)
+    val appListLiveData = MutableLiveData<SimpleActionState<List<AppBean>>>(SimpleActionState.Loading())
 
-    val featureState = MutableLiveData<FeatureState>()
+    val featureState = MutableLiveData<SimpleActionState<Pair<List<FeatureBean>,AppBean>>>()
 
-    val createTaskState = MutableLiveData<CreateTaskState>()
+    val createTaskState = MutableLiveData<SimpleActionState<Unit>>()
 
     init {
         loadAppList()
     }
 
     private fun loadAppList() {
-        appListLiveData.postValue(LocalAppState.Loading)
+        appListLiveData.postValue(SimpleActionState.Loading())
         launchIO {
             val list = LocalRepository.loadInstalledAppList()
-            appListLiveData.postValue(LocalAppState.Success(list))
+            appListLiveData.postValue(SimpleActionState.Success(list))
         }
     }
 
     fun loadFeatures(apkPath: String) {
-        featureState.postValue(FeatureState.Loading)
+        featureState.postValue(SimpleActionState.Loading())
         launchIO {
             val appBean = LocalRepository.loadApkInfo(apkPath)
             if (appBean != null) {
                 loadFeatures(appBean)
             } else {
-                featureState.postValue(FeatureState.Fail("Load Fail"))
+                featureState.postValue(SimpleActionState.Fail("Load Fail"))
             }
         }
     }
 
     fun loadFeatures(appBean: AppBean) {
-        featureState.postValue(FeatureState.Loading)
+        featureState.postValue(SimpleActionState.Loading())
         launchIO {
             val pair = LocalRepository.loadFeatures()
             if (pair.first.isNotEmpty() || pair.second.isNullOrEmpty()) {
-                featureState.postValue(FeatureState.Fail(pair.first))
+                featureState.postValue(SimpleActionState.Fail(pair.first))
             } else {
-                featureState.postValue(FeatureState.Success(pair.second!!, appBean))
+                featureState.postValue(SimpleActionState.Success(pair.second!! to appBean))
             }
         }
     }
 
     fun createTask(appBean: AppBean, feature: String) {
         launchIO {
-            createTaskState.postValue(CreateTaskState.Loading)
+            createTaskState.postValue(SimpleActionState.Loading())
             val result = TaskRepository.createTask(appBean, feature)
             if (result.isSuccess()){
-                createTaskState.postValue(CreateTaskState.Success)
+                createTaskState.postValue(SimpleActionState.Success(Unit))
             }else{
-                createTaskState.postValue(CreateTaskState.Fail(result.msg))
+                createTaskState.postValue(SimpleActionState.Fail(result.msg))
             }
         }
     }

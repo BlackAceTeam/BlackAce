@@ -4,10 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.blackace.app.base.BaseViewModel
 import com.blackace.data.AppRepository
 import com.blackace.data.config.AceConfig
-import com.blackace.data.state.ChangePassState
-import com.blackace.data.state.LoginState
-import com.blackace.data.state.RegisterState
-import com.blackace.data.state.SendEmailState
+import com.blackace.data.state.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 
@@ -18,34 +15,34 @@ import kotlinx.coroutines.isActive
  */
 class AccountViewModel : BaseViewModel() {
 
-    val loginState = MutableLiveData<LoginState>()
+    val loginState = MutableLiveData<SimpleActionState<Unit>>()
 
-    val registerState = MutableLiveData<RegisterState>()
+    val registerState = MutableLiveData<SimpleActionState<Unit>>()
 
-    val actionState = MutableLiveData<ChangePassState>()
+    val changePassState = MutableLiveData<SimpleActionState<String>>()
 
     val emailState = MutableLiveData<SendEmailState>(SendEmailState.Ready)
 
     fun login(username: String, password: String) {
         launchIO {
-            loginState.postValue(LoginState.Loading)
+            loginState.postValue(SimpleActionState.Loading())
             val msg = AppRepository.login(username, password)
             if (msg != null) {
-                loginState.postValue(LoginState.Fail(msg))
+                loginState.postValue(SimpleActionState.Fail(msg))
             } else {
-                loginState.postValue(LoginState.Success)
+                loginState.postValue(SimpleActionState.Success(Unit))
             }
         }
     }
 
     fun register(username: String, email: String, password: String) {
         launchIO {
-            registerState.postValue(RegisterState.Loading)
+            registerState.postValue(SimpleActionState.Loading())
             val msg = AppRepository.register(username, email, password)
             if (msg != null) {
-                registerState.postValue(RegisterState.Fail(msg))
+                registerState.postValue(SimpleActionState.Fail(msg))
             } else {
-                registerState.postValue(RegisterState.Success)
+                registerState.postValue(SimpleActionState.Success(Unit))
             }
         }
     }
@@ -56,13 +53,13 @@ class AccountViewModel : BaseViewModel() {
         if (realAccount == null) {
             realAccount = AceConfig.getUser()?.name ?: return
         }
-        actionState.postValue(ChangePassState.Loading)
+        changePassState.postValue(SimpleActionState.Loading())
         launchIO {
             val msg = AppRepository.changePassword(verify, newPass, realAccount)
             if (msg != null) {
-                actionState.postValue(ChangePassState.Fail(msg))
+                changePassState.postValue(SimpleActionState.Fail(msg))
             } else {
-                actionState.postValue(ChangePassState.Success(newPass))
+                changePassState.postValue(SimpleActionState.Success(newPass))
             }
         }
     }

@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.afollestad.materialdialogs.MaterialDialog
-import com.afollestad.materialdialogs.list.customListAdapter
 import com.blackace.R
 import com.blackace.app.base.BaseActivity
 import com.blackace.app.contract.ResultCodes
@@ -13,13 +11,8 @@ import com.blackace.app.ui.file.FileDecoder
 import com.blackace.app.ui.file.FileFragment
 import com.blackace.app.ui.local.app.AppFragment
 import com.blackace.app.ui.local.task.TaskCreateFragment
-import com.blackace.data.entity.AppBean
-import com.blackace.data.entity.http.FeatureBean
-import com.blackace.data.state.CreateTaskState
-import com.blackace.data.state.FeatureState
+import com.blackace.data.state.SimpleActionState
 import com.blackace.databinding.ActivityLocalBinding
-import com.blackace.databinding.ItemDialogFeatureBinding
-import com.drake.brv.BindingAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 
@@ -48,16 +41,16 @@ class LocalActivity : BaseActivity(), FileDecoder {
     private fun initViewModel() {
         viewModel.featureState.observe(this) {
             when (it) {
-                is FeatureState.Loading -> {
+                is SimpleActionState.Loading -> {
                     showLoadingDialog()
                 }
 
-                is FeatureState.Success -> {
+                is SimpleActionState.Success -> {
                     dismissLoadingDialog()
                     TaskCreateFragment().show(supportFragmentManager,"TaskCreate")
                 }
 
-                is FeatureState.Fail -> {
+                is SimpleActionState.Fail -> {
                     dismissLoadingDialog()
                     showSnackBar(it.msg)
                 }
@@ -66,17 +59,17 @@ class LocalActivity : BaseActivity(), FileDecoder {
 
         viewModel.createTaskState.observe(this) {
             when (it) {
-                is CreateTaskState.Loading -> {
+                is SimpleActionState.Loading -> {
                     showLoadingDialog()
                 }
 
-                is CreateTaskState.Success -> {
+                is SimpleActionState.Success -> {
                     dismissLoadingDialog()
                     setResult(ResultCodes.CREATE_TASK)
                     finish()
                 }
 
-                is CreateTaskState.Fail -> {
+                is SimpleActionState.Fail -> {
                     dismissLoadingDialog()
                     showSnackBar(it.msg)
                 }

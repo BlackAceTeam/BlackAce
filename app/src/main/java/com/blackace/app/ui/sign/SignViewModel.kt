@@ -3,8 +3,9 @@ package com.blackace.app.ui.sign
 import androidx.lifecycle.MutableLiveData
 import com.blackace.app.base.BaseViewModel
 import com.blackace.data.SignRepository
-import com.blackace.data.state.SignListState
+import com.blackace.data.entity.db.SignBean
 import com.blackace.data.state.SignManagerState
+import com.blackace.data.state.SimpleActionState
 
 /**
  *
@@ -13,15 +14,15 @@ import com.blackace.data.state.SignManagerState
  */
 class SignViewModel : BaseViewModel() {
 
-    val signListState = MutableLiveData<SignListState>()
+    val signListState = MutableLiveData<SimpleActionState<List<SignBean>>>()
 
     val signManagerState = MutableLiveData<SignManagerState>()
 
     fun loadLocalSign() {
-        signListState.postValue(SignListState.Loading)
+        signListState.postValue(SimpleActionState.Loading())
         launchIO {
             val list = SignRepository.loadSignList()
-            signListState.postValue(SignListState.Success(list))
+            signListState.postValue(SimpleActionState.Success(list))
         }
     }
 

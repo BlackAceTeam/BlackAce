@@ -5,7 +5,8 @@ package com.blackace.data.state
  * @author: magicHeimdall
  * @create: 13/2/2023 10:22 PM
  */
-sealed interface InstallState {
+sealed interface
+InstallState {
 
     object Loading : InstallState
 

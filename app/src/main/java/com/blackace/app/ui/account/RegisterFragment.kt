@@ -2,17 +2,13 @@ package com.blackace.app.ui.account
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.blackace.R
 import com.blackace.app.base.BaseFragment
-import com.blackace.data.state.LoginState
-import com.blackace.data.state.RegisterState
+import com.blackace.data.state.SimpleActionState
 import com.blackace.databinding.FragmentRegisterBinding
 import com.blackace.util.ext.*
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
 /**
  *
@@ -35,16 +31,16 @@ class RegisterFragment : BaseFragment(R.layout.fragment_register) {
     private fun initViewModel() {
         viewModel.registerState.observe(viewLifecycleOwner) {
             when (it) {
-                is RegisterState.Loading -> {
+                is SimpleActionState.Loading -> {
                     showLoadingDialog()
                 }
 
-                is RegisterState.Fail -> {
+                is SimpleActionState.Fail -> {
                     dismissLoadingDialog()
                     binding.layoutUsername.error = it.msg
                 }
 
-                is RegisterState.Success -> {
+                is SimpleActionState.Success -> {
                     dismissLoadingDialog()
                     attachActivity<AccountActivity>().loginSuccess()
                 }

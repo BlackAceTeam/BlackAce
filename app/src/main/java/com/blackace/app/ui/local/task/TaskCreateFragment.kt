@@ -10,7 +10,7 @@ import com.blackace.app.ui.local.LocalViewModel
 import com.blackace.data.config.AceConfig
 import com.blackace.data.entity.AppBean
 import com.blackace.data.entity.http.FeatureBean
-import com.blackace.data.state.FeatureState
+import com.blackace.data.state.SimpleActionState
 import com.blackace.databinding.FragmentTaskCreateBinding
 import com.blackace.databinding.ItemDialogFeatureBinding
 import com.blackace.util.ToastUtil
@@ -101,16 +101,17 @@ class TaskCreateFragment : BaseBottomDialogFragment(R.layout.fragment_task_creat
 
     private fun initViewModel() {
         viewModel.featureState.observe(viewLifecycleOwner) {
-            if (it !is FeatureState.Success) {
+            if (it !is SimpleActionState.Success) {
                 return@observe
             }
 
-            appBean = it.appBean
-            binding.recyclerView.models = it.list
-            binding.ivIcon.setImageDrawable(it.appBean.icon)
-            binding.nameEdit.setText(it.appBean.name)
-            binding.versionNameEdit.setText(it.appBean.version)
-            binding.versionCodeEdit.setText(it.appBean.versionCode)
+            val tmpAppBean = it.bean.second
+            appBean = tmpAppBean
+            binding.recyclerView.models = it.bean.first
+            binding.ivIcon.setImageDrawable(tmpAppBean.icon)
+            binding.nameEdit.setText(tmpAppBean.name)
+            binding.versionNameEdit.setText(tmpAppBean.version)
+            binding.versionCodeEdit.setText(tmpAppBean.versionCode)
 
         }
     }

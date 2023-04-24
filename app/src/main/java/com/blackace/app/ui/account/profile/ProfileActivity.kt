@@ -9,7 +9,7 @@ import com.blackace.app.base.BaseActivity
 import com.blackace.app.contract.ProfileActivityContract
 import com.blackace.app.ui.account.AccountViewModel
 import com.blackace.data.entity.UserBean
-import com.blackace.data.state.ChangePassState
+import com.blackace.data.state.SimpleActionState
 import com.blackace.data.state.UserState
 import com.blackace.databinding.ActivityProfileBinding
 import com.blackace.databinding.ItemProfileSimpleBinding
@@ -45,13 +45,13 @@ class ProfileActivity : BaseActivity() {
 
     private fun initRecyclerView() {
         binding.recyclerView.linear().setup {
-            addType<Int>(R.layout.item_profile_title)
+            addType<String>(R.layout.item_profile_title)
             addType<Pair<Int, String>>(R.layout.item_profile_simple)
             onBind {
                 when (val model = getModel<Any>()) {
-                    is Int -> {
+                    is String -> {
                         val binding = getBinding<ItemProfileTitleBinding>()
-                        binding.tvTitle.setText(model)
+                        binding.tvTitle.text = model
                     }
 
                     is Pair<*, *> -> {
@@ -87,20 +87,20 @@ class ProfileActivity : BaseActivity() {
             }
         }
 
-        accountViewModel.actionState.observe(this) {
+        accountViewModel.changePassState.observe(this) {
             when (it) {
-                is ChangePassState.Loading -> {
+                is SimpleActionState.Loading -> {
                     showLoadingDialog()
                 }
 
-                is ChangePassState.Success -> {
+                is SimpleActionState.Success -> {
                     dismissLoadingDialog()
                     accountViewModel.logout()
                     MaterialDialog(this).show {
                         cancelable(false)
                         cancelOnTouchOutside(false)
                         title(R.string.change_password)
-                        message(text = getString(R.string.password_change_success_with_pass, it.password))
+                        message(text = getString(R.string.password_change_success_with_pass, it.bean))
                         positiveButton(R.string.done) {
                             setResult(ProfileActivityContract.UPDATE_CONFIG)
                             finish()
@@ -108,7 +108,7 @@ class ProfileActivity : BaseActivity() {
                     }
                 }
 
-                is ChangePassState.Fail -> {
+                is SimpleActionState.Fail -> {
                     dismissLoadingDialog()
                     showSnackBar(it.msg)
                 }
@@ -128,7 +128,7 @@ class ProfileActivity : BaseActivity() {
 
     private fun generateTask(bean: UserBean): List<Any> {
         return listOf(
-            R.string.account_setting,
+            getString(R.string.account_setting),
             R.string.username to bean.name,
             R.string.email to bean.email,
             R.string.register_time to bean.registerTime.date("yyyy-MM-dd"),

@@ -1,13 +1,12 @@
 package com.blackace.app.ui.account
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.blackace.R
 import com.blackace.app.base.BaseActivity
 import com.blackace.app.contract.ResultCodes
-import com.blackace.data.state.ChangePassState
+import com.blackace.data.state.SimpleActionState
 import com.blackace.databinding.ActivityAccountBinding
 import com.blackace.util.ToastUtil
 
@@ -30,18 +29,18 @@ class AccountActivity : BaseActivity() {
     }
 
     private fun initViewModel() {
-        viewModel.actionState.observe(this){
+        viewModel.changePassState.observe(this){
             when (it) {
-                is ChangePassState.Loading -> {
+                is SimpleActionState.Loading -> {
                     showLoadingDialog()
                 }
 
-                is ChangePassState.Success -> {
+                is SimpleActionState.Success -> {
                     dismissLoadingDialog()
                     ToastUtil.showToast(R.string.password_change_success)
                 }
 
-                is ChangePassState.Fail -> {
+                is SimpleActionState.Fail -> {
                     dismissLoadingDialog()
                     showSnackBar(it.msg)
                 }

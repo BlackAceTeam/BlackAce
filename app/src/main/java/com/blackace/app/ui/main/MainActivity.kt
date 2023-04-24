@@ -28,6 +28,7 @@ import com.blackace.data.state.UserState
 import com.blackace.databinding.ActivityMainBinding
 import com.blackace.databinding.ViewMainNavigationHeaderBinding
 import com.blackace.util.ToastUtil.showToast
+import com.blackace.util.ext.startBrowser
 import com.drake.brv.utils.*
 
 
@@ -91,9 +92,6 @@ class MainActivity : BaseActivity() {
                 }
                 R.id.main_about_app -> {
                     AboutActivity.start(this)
-                }
-                R.id.main_chat -> {
-                    startBrowser("https://t.me/blackacepro")
                 }
             }
             true
@@ -247,22 +245,6 @@ class MainActivity : BaseActivity() {
         }
     }
 
-
-    private fun startBrowser(url: String?) {
-        if (url.isNullOrEmpty()) {
-            showSnackBar("Url is Empty")
-            return
-        }
-        runCatching {
-            val uri = Uri.parse(url)
-            val intent = Intent()
-            intent.action = Intent.ACTION_VIEW
-            intent.data = uri
-            startActivity(intent)
-        }.onFailure {
-            showSnackBar(getString(R.string.open_fail))
-        }
-    }
 
     private fun registerBackCallback() {
         addBackCallback(lifecycle) {

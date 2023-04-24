@@ -3,7 +3,8 @@ package com.blackace.app.ui.file
 import androidx.lifecycle.MutableLiveData
 import com.blackace.app.base.BaseViewModel
 import com.blackace.data.LocalRepository
-import com.blackace.data.state.LocalFileState
+import com.blackace.data.entity.FileBean
+import com.blackace.data.state.SimpleActionState
 
 /**
  *
@@ -13,14 +14,14 @@ import com.blackace.data.state.LocalFileState
 class FileViewModel : BaseViewModel() {
 
 
-    val fileListLiveData = MutableLiveData<LocalFileState>(LocalFileState.Loading)
+    val fileListLiveData = MutableLiveData<SimpleActionState<List<FileBean>>>(SimpleActionState.Loading())
 
 
     fun loadFileList(path: String) {
-        fileListLiveData.postValue(LocalFileState.Loading)
+        fileListLiveData.postValue(SimpleActionState.Loading())
         launchIO {
             val list = LocalRepository.listFile(path)
-            fileListLiveData.postValue(LocalFileState.Success(list))
+            fileListLiveData.postValue(SimpleActionState.Success(list))
         }
     }
 }

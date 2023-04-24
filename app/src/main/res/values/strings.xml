@@ -134,5 +134,7 @@
     <string name="hour">小时</string>
     <string name="unuse">未使用</string>
     <string name="used">已使用</string>
-    <string name="telegram">Telegram</string>
+    <string name="about_telegram">Telegram群</string>
+    <string name="about_github">开源地址</string>
+
 </resources>

@@ -10,7 +10,7 @@ import com.blackace.R
 import com.blackace.app.base.BaseFragment
 import com.blackace.app.ui.local.LocalViewModel
 import com.blackace.data.entity.AppBean
-import com.blackace.data.state.LocalAppState
+import com.blackace.data.state.SimpleActionState
 import com.blackace.databinding.FragmentAppBinding
 import com.blackace.databinding.ItemLocalAppBinding
 import com.drake.brv.utils.linear
@@ -65,12 +65,16 @@ class AppFragment : BaseFragment(R.layout.fragment_app) {
     private fun initViewModel() {
         viewModel.appListLiveData.observe(viewLifecycleOwner) {
             when (it) {
-                is LocalAppState.Loading -> {
+                is SimpleActionState.Loading -> {
                     binding.stateView.showLoading()
                 }
 
-                is LocalAppState.Success -> {
-                    binding.recyclerView.models = it.list
+                is SimpleActionState.Fail->{
+                    //nothing something need to do
+                }
+
+                is SimpleActionState.Success -> {
+                    binding.recyclerView.models = it.bean
                     binding.stateView.showContent()
                 }
             }

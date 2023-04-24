@@ -8,8 +8,8 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.blackace.R
 import com.blackace.app.base.BaseFragment
 import com.blackace.data.entity.db.SignBean
-import com.blackace.data.state.SignListState
 import com.blackace.data.state.SignManagerState
+import com.blackace.data.state.SimpleActionState
 import com.blackace.databinding.FragmentSignBinding
 import com.blackace.databinding.ItemSignManagerBinding
 import com.blackace.util.ext.showConfirmDialog
@@ -36,15 +36,19 @@ class SignFragment : BaseFragment(R.layout.fragment_sign) {
         viewModel.loadLocalSign()
         viewModel.signListState.observe(viewLifecycleOwner) {
             when (it) {
-                is SignListState.Loading -> {
+                is SimpleActionState.Loading -> {
                     binding.stateView.showLoading()
                 }
 
-                is SignListState.Success -> {
-                    if (it.list.isEmpty()) {
+                is SimpleActionState.Fail->{
+                    //nothing to do
+                }
+
+                is SimpleActionState.Success -> {
+                    if (it.bean.isEmpty()) {
                         binding.stateView.showEmpty(getString(R.string.no_sign))
                     } else {
-                        binding.recyclerView.models = it.list
+                        binding.recyclerView.models = it.bean
                         binding.stateView.showContent()
                     }
                 }

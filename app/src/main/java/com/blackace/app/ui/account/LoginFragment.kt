@@ -2,15 +2,13 @@ package com.blackace.app.ui.account
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.blackace.R
 import com.blackace.app.base.BaseFragment
 import com.blackace.app.ui.account.profile.PasswordFindFragment
-import com.blackace.app.ui.file.FileChildFragment
-import com.blackace.data.state.LoginState
+import com.blackace.data.state.SimpleActionState
 import com.blackace.databinding.FragmentLoginBinding
 import com.blackace.util.ext.*
 
@@ -36,16 +34,16 @@ class LoginFragment : BaseFragment(R.layout.fragment_login) {
     private fun initViewModel() {
         viewModel.loginState.observe(viewLifecycleOwner) {
             when (it) {
-                is LoginState.Loading -> {
+                is SimpleActionState.Loading -> {
                     showLoadingDialog()
                 }
 
-                is LoginState.Fail -> {
+                is SimpleActionState.Fail -> {
                     dismissLoadingDialog()
                     binding.layoutPassword.error = it.msg
                 }
 
-                is LoginState.Success -> {
+                is SimpleActionState.Success -> {
                     dismissLoadingDialog()
                     attachActivity<AccountActivity>().loginSuccess()
                 }
